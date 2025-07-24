@@ -433,25 +433,6 @@ const CoursePlatformNetflix = ({ user }: CoursePlatformNetflixProps) => {
                   )}
                 </div>
 
-                <CardContent className="p-3 sm:p-4 flex-1 flex flex-col justify-between">
-                  <div className="flex-1">
-                    <h3 className="font-bold text-sm sm:text-base lg:text-lg mb-2 text-white">{course.title}</h3>
-                    <p className="text-xs sm:text-sm text-gray-400 mb-3 sm:mb-4">
-                      {course.description}
-                    </p>
-                  </div>
-
-                  <div className="space-y-2 sm:space-y-3">
-                    <div className="flex items-center gap-2 text-xs text-gray-400">
-                      <Users className="h-3 w-3" />
-                      <span className="truncate">{course.instructor_name}</span>
-                    </div>
-
-                    <Badge variant="outline" className="text-xs border-gray-600 text-gray-300 w-fit">
-                      {course.category}
-                    </Badge>
-                  </div>
-                </CardContent>
               </Card>
             ))}
           </div>
