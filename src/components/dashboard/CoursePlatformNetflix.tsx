@@ -404,7 +404,7 @@ const CoursePlatformNetflix = ({ user }: CoursePlatformNetflixProps) => {
               <Card 
                 key={course.id} 
                 className="w-full max-w-sm mx-auto sm:max-w-none h-auto sm:h-[400px] md:h-[450px] lg:h-[480px] bg-gray-900 border-gray-700 cursor-pointer hover:scale-105 transition-all duration-300 group relative"
-                onClick={() => !adminModeEnabled && handleCourseClick(course)}
+                onClick={() => handleCourseClick(course)}
               >
                 {/* Controles admin do curso */}
                 {adminModeEnabled && (
@@ -435,8 +435,8 @@ const CoursePlatformNetflix = ({ user }: CoursePlatformNetflixProps) => {
 
                 <CardContent className="p-3 sm:p-4 flex-1 flex flex-col justify-between">
                   <div className="flex-1">
-                    <h3 className="font-bold text-sm sm:text-base lg:text-lg mb-2 text-white line-clamp-2">{course.title}</h3>
-                    <p className="text-xs sm:text-sm text-gray-400 line-clamp-2 sm:line-clamp-3 mb-3 sm:mb-4">
+                    <h3 className="font-bold text-sm sm:text-base lg:text-lg mb-2 text-white">{course.title}</h3>
+                    <p className="text-xs sm:text-sm text-gray-400 mb-3 sm:mb-4">
                       {course.description}
                     </p>
                   </div>
@@ -450,18 +450,6 @@ const CoursePlatformNetflix = ({ user }: CoursePlatformNetflixProps) => {
                     <Badge variant="outline" className="text-xs border-gray-600 text-gray-300 w-fit">
                       {course.category}
                     </Badge>
-
-                    <Button 
-                      className="w-full bg-red-600 hover:bg-red-700 text-xs sm:text-sm" 
-                      size="sm"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleCourseClick(course);
-                      }}
-                    >
-                      <Play className="h-3 w-3 sm:h-4 w-3 sm:w-4 mr-1 sm:mr-2" />
-                      {adminModeEnabled ? 'Visualizar Curso' : 'Começar Curso'}
-                    </Button>
                   </div>
                 </CardContent>
               </Card>
