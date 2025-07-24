@@ -78,6 +78,7 @@ export const XiaomiScaleFlow: React.FC = () => {
   const [selectedDevice, setSelectedDevice] = useState<BluetoothDevice | null>(null);
   const [scaleData, setScaleData] = useState<ScaleData | null>(null);
   const [abdominalCircumference, setAbdominalCircumference] = useState('');
+  const [manualWeight, setManualWeight] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string>('');
   const [bluetoothDevice, setBluetoothDevice] = useState<BluetoothDevice | null>(null);
@@ -409,15 +410,13 @@ export const XiaomiScaleFlow: React.FC = () => {
 
       toast({
         title: "Pesagem salva com sucesso!",
-        description: `Peso: ${scaleData.weight}kg | IMC: ${scaleData.bmi}`,
+        description: `Peso: ${scaleData.weight}kg | IMC: ${scaleData.bmi.toFixed(1)}. A página será atualizada em 10 segundos.`,
       });
-
-      setCurrentStep('completed');
       
-      // Recarregar página após 2 segundos
+      // Aguardar 10 segundos antes de recarregar
       setTimeout(() => {
         window.location.reload();
-      }, 2000);
+      }, 10000);
 
     } catch (error: any) {
       console.error('Erro ao salvar:', error);
@@ -439,6 +438,7 @@ export const XiaomiScaleFlow: React.FC = () => {
     setSelectedDevice(null);
     setScaleData(null);
     setAbdominalCircumference('');
+    setManualWeight('');
     setIsProcessing(false);
     setError('');
     setBluetoothDevice(null);
@@ -534,9 +534,10 @@ export const XiaomiScaleFlow: React.FC = () => {
                       step="0.1"
                       min="0"
                       max="500"
-                      value={scaleData?.weight || ''}
+                      value={manualWeight || ''}
                       onChange={(e) => {
                         const weight = parseFloat(e.target.value);
+                        setManualWeight(e.target.value);
                         if (weight > 0) {
                           setScaleData(prev => prev ? { ...prev, weight } : generateScaleData());
                         }
@@ -561,8 +562,26 @@ export const XiaomiScaleFlow: React.FC = () => {
                 
                 <Button 
                   onClick={() => {
-                    if (scaleData?.weight && abdominalCircumference) {
-                      // Salvar diretamente se temos peso e perímetro
+                    if (manualWeight && abdominalCircumference) {
+                      // Criar dados de pesagem manual
+                      const weight = parseFloat(manualWeight);
+                      const height = 170; // Altura padrão
+                      const heightInMeters = height / 100;
+                      const bmi = weight / (heightInMeters * heightInMeters);
+                      
+                      const manualData: ScaleData = {
+                        weight: weight,
+                        bmi: bmi,
+                        bodyFat: 20, // Valor padrão
+                        muscleMass: weight * 0.4, // Estimativa
+                        waterPercentage: 60, // Valor padrão
+                        boneMass: weight * 0.15, // Estimativa
+                        visceralFat: 10, // Valor padrão
+                        metabolicAge: 30, // Valor padrão
+                        timestamp: new Date()
+                      };
+                      
+                      setScaleData(manualData);
                       confirmAndSave();
                     } else {
                       // Ir para confirmação se não temos todos os dados
@@ -573,7 +592,7 @@ export const XiaomiScaleFlow: React.FC = () => {
                   }}
                   className="w-full"
                   size="lg"
-                  disabled={!scaleData?.weight || !abdominalCircumference}
+                  disabled={!manualWeight || !abdominalCircumference}
                 >
                   <Save className="mr-2 h-4 w-4" />
                   💾 SALVAR PESAGEM
@@ -912,109 +931,7 @@ export const XiaomiScaleFlow: React.FC = () => {
           </div>
         );
 
-      case 'completed':
-        return (
-          <div className="text-center space-y-6">
-            <div className="text-6xl mb-4">📈</div>
-            <h2 className="text-2xl font-bold">Gráficos Atualizados</h2>
-            
-            <div className="grid grid-cols-3 gap-4">
-              <Card>
-                <CardContent className="p-4 text-center">
-                  <div className="text-2xl mb-2">⚖️</div>
-                  <div className="text-lg font-bold">PESO</div>
-                  <div className="text-2xl font-bold text-primary">70.5 kg</div>
-                  <div className="flex items-center justify-center gap-1 text-green-500">
-                    <TrendingDown className="h-4 w-4" />
-                    <span className="text-sm">-2.3</span>
-                  </div>
-                </CardContent>
-              </Card>
-              
-              <Card>
-                <CardContent className="p-4 text-center">
-                  <div className="text-2xl mb-2">📊</div>
-                  <div className="text-lg font-bold">IMC</div>
-                  <div className="text-2xl font-bold text-primary">22.4</div>
-                  <div className="flex items-center justify-center gap-1 text-green-500">
-                    <TrendingDown className="h-4 w-4" />
-                    <span className="text-sm">-0.8</span>
-                  </div>
-                </CardContent>
-              </Card>
-              
-              <Card>
-                <CardContent className="p-4 text-center">
-                  <div className="text-2xl mb-2">🎯</div>
-                  <div className="text-lg font-bold">META</div>
-                  <div className="text-2xl font-bold text-primary">68.0 kg</div>
-                  <div className="flex items-center justify-center gap-1 text-green-500">
-                    <CheckCircle className="h-4 w-4" />
-                    <span className="text-sm">68%</span>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-            
-            <div className="grid grid-cols-3 gap-4">
-              <Card>
-                <CardContent className="p-4 text-center">
-                  <div className="text-2xl mb-2">🩸</div>
-                  <div className="text-lg font-bold">GORD</div>
-                  <div className="text-2xl font-bold text-primary">18.2%</div>
-                  <div className="flex items-center justify-center gap-1 text-green-500">
-                    <TrendingDown className="h-4 w-4" />
-                    <span className="text-sm">-1.5</span>
-                  </div>
-                </CardContent>
-              </Card>
-              
-              <Card>
-                <CardContent className="p-4 text-center">
-                  <div className="text-2xl mb-2">💪</div>
-                  <div className="text-lg font-bold">MUSC</div>
-                  <div className="text-2xl font-bold text-primary">32.1 kg</div>
-                  <div className="flex items-center justify-center gap-1 text-green-500">
-                    <TrendingUp className="h-4 w-4" />
-                    <span className="text-sm">+0.8</span>
-                  </div>
-                </CardContent>
-              </Card>
-              
-              <Card>
-                <CardContent className="p-4 text-center">
-                  <div className="text-2xl mb-2">💧</div>
-                  <div className="text-lg font-bold">ÁGUA</div>
-                  <div className="text-2xl font-bold text-primary">58.3%</div>
-                  <div className="flex items-center justify-center gap-1 text-green-500">
-                    <TrendingUp className="h-4 w-4" />
-                    <span className="text-sm">+2.1</span>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-            
-            <Card className="bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200">
-              <CardContent className="p-4">
-                <h4 className="font-medium text-blue-800 mb-2">🎯 Fluxo Completo da Balança</h4>
-                <div className="space-y-1 text-sm text-blue-700">
-                  <p>🔍 CLICAR → 🔗 PAREAR → ⚙️ CALIBRAR → 👤 MEDIR → 📊 CAPTURAR</p>
-                  <p>📝 CONFIRMAR → 💾 SALVAR → 📈 ATUALIZAR → ✅ CONCLUÍDO</p>
-                  <p>⏱️ Tempo total: 10 segundos (5s calibração + 5s medição)</p>
-                  <p>📊 Dados salvos em todas as tabelas e gráficos</p>
-                </div>
-              </CardContent>
-            </Card>
-            
-            <Button 
-              onClick={() => setIsOpen(false)}
-              className="w-full"
-            >
-              <CheckCircle className="mr-2 h-4 w-4" />
-              Concluído
-            </Button>
-          </div>
-        );
+
 
       case 'error':
         return (

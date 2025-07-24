@@ -119,13 +119,13 @@ const SimpleWeightForm: React.FC = () => {
 
       toast({
         title: "Pesagem salva!",
-        description: `Peso: ${data.peso_kg}kg | IMC: ${data.imc?.toFixed(1)} registrado com sucesso.`,
+        description: `Peso: ${data.peso_kg}kg | IMC: ${data.imc?.toFixed(1)} registrado com sucesso. A página será atualizada em 7 segundos.`,
       });
 
       // Recarregar a página para atualizar os dashboards
       setTimeout(() => {
         window.location.reload();
-      }, 1000);
+      }, 7000);
 
     } catch (err) {
       console.error('Erro completo:', err);

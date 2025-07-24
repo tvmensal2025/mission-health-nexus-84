@@ -14,6 +14,8 @@ import { XiaomiScaleFlow } from '@/components/XiaomiScaleFlow';
 import { useWeightMeasurement } from '@/hooks/useWeightMeasurement';
 import { supabase } from '@/integrations/supabase/client';
 import { format } from 'date-fns';
+import { PersonIcon, BodyCompositionIcon, HealthIndicatorIcon } from '@/components/ui/person-icon';
+import { BodyEvolutionChart } from './BodyEvolutionChart';
 
 const weeklyStats = [
   { day: 'Seg', exercicio: 45, hidratacao: 1.8, sono: 7.5 },
@@ -178,14 +180,42 @@ const DashboardOverview: React.FC = () => {
 
       {/* Quick Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard
-          title="Peso Atual"
-          value={stats?.currentWeight || 'N/A'}
-          unit="kg"
-          change={weightChange()}
-          icon={Scale}
-          color="text-primary"
-        />
+        <Card className="stat-card">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              Peso Atual
+            </CardTitle>
+            <Scale className="h-4 w-4 text-primary" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-foreground">
+              {stats?.currentWeight || 'N/A'}
+              <span className="text-base text-muted-foreground ml-1">kg</span>
+            </div>
+            {weightChange() && (
+              <p className="text-xs text-muted-foreground">
+                {weightChange()}
+              </p>
+            )}
+            
+            {/* Últimas medições */}
+            {measurements.length > 0 && (
+              <div className="mt-3 space-y-1">
+                <p className="text-xs text-muted-foreground font-medium">Últimas medições:</p>
+                {measurements.slice(0, 3).map((measurement, index) => (
+                  <div key={index} className="flex justify-between items-center text-xs">
+                    <span className="text-muted-foreground">
+                      {format(new Date(measurement.measurement_date || measurement.created_at), 'dd/MM')}
+                    </span>
+                    <span className={`font-medium ${index === 0 ? 'text-primary' : 'text-muted-foreground'}`}>
+                      {Number(measurement.peso_kg).toFixed(1)} kg
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
         <StatCard
           title="IMC"
           value={stats?.currentIMC || 'N/A'}
@@ -194,14 +224,45 @@ const DashboardOverview: React.FC = () => {
           color="text-success"
           description="Índice de massa corporal"
         />
-        <StatCard
-          title="Água Hoje"
-          value="1.8"
-          unit="L"
-          change="Meta: 2.0L"
-          icon={Droplets}
-          color="text-health-hydration"
-        />
+        <Card className="stat-card">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              Progresso Semanal
+            </CardTitle>
+            <Award className="h-4 w-4 text-yellow-500" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-foreground">
+              78%
+              <span className="text-base text-muted-foreground ml-1">Meta</span>
+            </div>
+            <div className="mt-2 space-y-2">
+              {/* Resumo da semana */}
+              <div className="flex justify-between items-center text-xs">
+                <span className="text-muted-foreground">Peso:</span>
+                <span className="font-medium text-green-500">-1.2kg</span>
+              </div>
+              <div className="flex justify-between items-center text-xs">
+                <span className="text-muted-foreground">Exercícios:</span>
+                <span className="font-medium text-blue-500">5/7 dias</span>
+              </div>
+              <div className="flex justify-between items-center text-xs">
+                <span className="text-muted-foreground">Hidratação:</span>
+                <span className="font-medium text-cyan-500">85%</span>
+              </div>
+            </div>
+            <div className="mt-3">
+              <div className="flex justify-between items-center text-xs mb-1">
+                <span className="text-muted-foreground">Progresso Geral</span>
+                <span className="font-medium">78%</span>
+              </div>
+              <Progress value={78} className="h-2" />
+            </div>
+            <p className="text-xs text-muted-foreground mt-2">
+              Tendência: <span className="text-green-500 font-medium">↗️ Positiva</span>
+            </p>
+          </CardContent>
+        </Card>
         <div className="stat-card">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">
@@ -220,89 +281,22 @@ const DashboardOverview: React.FC = () => {
       </div>
 
       {/* Main Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Weight Evolution Chart */}
-        <Card className="health-card">
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <TrendingUp className="w-5 h-5 text-primary" />
-              <span>Evolução do Peso</span>
-            </CardTitle>
-            <CardDescription>
-              Últimos 7 dias - Meta: 70kg
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={weightData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                  <XAxis 
-                    dataKey="date" 
-                    stroke="hsl(var(--muted-foreground))"
-                    fontSize={12}
-                  />
-                  <YAxis 
-                    stroke="hsl(var(--muted-foreground))"
-                    fontSize={12}
-                    domain={['dataMin - 1', 'dataMax + 1']}
-                  />
-                  <Tooltip />
-                  <Line 
-                    type="monotone" 
-                    dataKey="peso" 
-                    stroke="hsl(var(--primary))"
-                    strokeWidth={3}
-                    dot={{ fill: 'hsl(var(--primary))', strokeWidth: 2, r: 4 }}
-                    activeDot={{ r: 6, stroke: 'hsl(var(--primary))', strokeWidth: 2 }}
-                  />
-                  <Line 
-                    type="monotone" 
-                    dataKey="meta" 
-                    stroke="hsl(var(--success))"
-                    strokeWidth={2}
-                    strokeDasharray="5 5"
-                    dot={false}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Body Composition */}
-        <Card className="health-card">
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <Zap className="w-5 h-5 text-accent" />
-              <span>Composição Corporal</span>
-            </CardTitle>
-            <CardDescription>
-              Análise atual do seu corpo
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={bodyComposition}
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={80}
-                    dataKey="value"
-                    label={({ name, value }) => `${name}: ${value}%`}
-                  >
-                    {bodyComposition.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <Tooltip />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-          </CardContent>
-        </Card>
+      <div className="grid grid-cols-1 gap-6">
+        {/* Body Evolution Chart - Combinando silhueta e gráfico */}
+        <BodyEvolutionChart
+          weightData={weightData.map((item, index) => ({
+            date: item.date,
+            time: '08:30', // Hora padrão
+            value: item.peso,
+            type: 'peso' as const
+          }))}
+          bodyCompositionData={{
+            gordura: 44.1,
+            musculo: 24.0,
+            agua: 39.9,
+            osso: 15.0
+          }}
+        />
       </div>
 
       {/* Weekly Activity Chart */}

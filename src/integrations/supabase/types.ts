@@ -919,6 +919,320 @@ export type Database = {
         }
         Relationships: []
       }
+      daily_mission_sessions: {
+        Row: {
+          id: string
+          user_id: string
+          date: string
+          completed_sections: string[]
+          total_points: number
+          streak_days: number
+          is_completed: boolean
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          date?: string
+          completed_sections?: string[]
+          total_points?: number
+          streak_days?: number
+          is_completed?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          date?: string
+          completed_sections?: string[]
+          total_points?: number
+          streak_days?: number
+          is_completed?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "daily_mission_sessions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      daily_responses: {
+        Row: {
+          id: string
+          user_id: string
+          date: string
+          section: string
+          question_id: string
+          answer: string
+          text_response: string | null
+          points_earned: number
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          date?: string
+          section: string
+          question_id: string
+          answer: string
+          text_response?: string | null
+          points_earned?: number
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          date?: string
+          section?: string
+          question_id?: string
+          answer?: string
+          text_response?: string | null
+          points_earned?: number
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "daily_responses_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      user_achievements: {
+        Row: {
+          id: string
+          user_id: string
+          achievement_type: string
+          title: string
+          description: string | null
+          icon: string | null
+          unlocked_at: string
+          progress: number
+          target: number
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          achievement_type: string
+          title: string
+          description?: string | null
+          icon?: string | null
+          unlocked_at?: string
+          progress?: number
+          target?: number
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          achievement_type?: string
+          title?: string
+          description?: string | null
+          icon?: string | null
+          unlocked_at?: string
+          progress?: number
+          target?: number
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_achievements_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      weekly_insights: {
+        Row: {
+          id: string
+          user_id: string
+          week_start_date: string
+          average_mood: number | null
+          average_energy: number | null
+          average_stress: number | null
+          most_common_gratitude: string | null
+          water_consistency: number | null
+          sleep_consistency: number | null
+          exercise_frequency: number | null
+          streak_days: number
+          total_points: number
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          week_start_date: string
+          average_mood?: number | null
+          average_energy?: number | null
+          average_stress?: number | null
+          most_common_gratitude?: string | null
+          water_consistency?: number | null
+          sleep_consistency?: number | null
+          exercise_frequency?: number | null
+          streak_days?: number
+          total_points?: number
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          week_start_date?: string
+          average_mood?: number | null
+          average_energy?: number | null
+          average_stress?: number | null
+          most_common_gratitude?: string | null
+          water_consistency?: number | null
+          sleep_consistency?: number | null
+          exercise_frequency?: number | null
+          streak_days?: number
+          total_points?: number
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "weekly_insights_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      water_tracking: {
+        Row: {
+          id: string
+          user_id: string
+          date: string
+          amount_ml: number
+          source: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          date: string
+          amount_ml: number
+          source?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          date?: string
+          amount_ml?: number
+          source?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "water_tracking_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      sleep_tracking: {
+        Row: {
+          id: string
+          user_id: string
+          date: string
+          hours: number | null
+          quality: number | null
+          source: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          date: string
+          hours?: number | null
+          quality?: number | null
+          source?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          date?: string
+          hours?: number | null
+          quality?: number | null
+          source?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sleep_tracking_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      mood_tracking: {
+        Row: {
+          id: string
+          user_id: string
+          date: string
+          energy_level: number | null
+          stress_level: number | null
+          day_rating: number | null
+          source: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          date: string
+          energy_level?: number | null
+          stress_level?: number | null
+          day_rating?: number | null
+          source?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          date?: string
+          energy_level?: number | null
+          stress_level?: number | null
+          day_rating?: number | null
+          source?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mood_tracking_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
     }
     Views: {
       [_ in never]: never

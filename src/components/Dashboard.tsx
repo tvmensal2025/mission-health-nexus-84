@@ -10,6 +10,7 @@ import {
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Progress } from './ui/progress';
 import { Button } from './ui/button';
+import { PersonIcon, BodyCompositionIcon, HealthIndicatorIcon } from './ui/person-icon';
 
 // Mock data
 const weightData = [
@@ -146,7 +147,7 @@ export default function Dashboard() {
         <Card className="health-card">
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
-              <TrendingUp className="w-5 h-5 text-primary" />
+              <PersonIcon size="md" variant="filled" color="#F97316" />
               <span>Evolução do Peso</span>
             </CardTitle>
             <CardDescription>
@@ -154,6 +155,13 @@ export default function Dashboard() {
             </CardDescription>
           </CardHeader>
           <CardContent>
+            <div className="flex items-center gap-4 mb-4">
+              <PersonIcon size="lg" variant="gradient" color="#F97316" />
+              <div className="flex-1">
+                <p className="text-sm text-muted-foreground">Seu progresso de peso ao longo do tempo</p>
+                <p className="text-xs text-muted-foreground">O boneco representa você e sua jornada de saúde</p>
+              </div>
+            </div>
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
               <LineChart data={weightData}>
@@ -195,7 +203,7 @@ export default function Dashboard() {
         <Card className="health-card">
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
-              <Zap className="w-5 h-5 text-accent" />
+              <PersonIcon size="md" variant="filled" color="#10B981" />
               <span>Composição Corporal</span>
             </CardTitle>
             <CardDescription>
@@ -203,6 +211,21 @@ export default function Dashboard() {
             </CardDescription>
           </CardHeader>
           <CardContent>
+            <div className="flex items-center gap-4 mb-4">
+              <PersonIcon size="lg" variant="gradient" color="#10B981" />
+              <div className="flex-1">
+                <p className="text-sm text-muted-foreground">Distribuição dos componentes do seu corpo</p>
+                <p className="text-xs text-muted-foreground">Cada seção representa uma parte da sua composição</p>
+              </div>
+            </div>
+            
+            {/* Ícones de composição corporal */}
+            <div className="grid grid-cols-3 gap-2 mb-4">
+              <BodyCompositionIcon type="muscle" size="sm" />
+              <BodyCompositionIcon type="fat" size="sm" />
+              <BodyCompositionIcon type="water" size="sm" />
+            </div>
+            
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
               <PieChart>

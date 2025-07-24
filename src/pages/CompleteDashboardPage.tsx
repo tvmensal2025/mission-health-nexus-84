@@ -35,6 +35,7 @@ import MyProgress from '@/components/MyProgress';
 import SaboteurTest from '@/components/SaboteurTest';
 import { UserProfile } from "@/components/UserProfile";
 import DebugDataVerification from '@/components/DebugDataVerification';
+import BioimpedanciaPage from '@/pages/BioimpedanciaPage';
 // import UserSessions from "@/components/dashboard/UserSessions";
 
 type DashboardSection = 
@@ -52,7 +53,7 @@ type DashboardSection =
   | 'saboteur-test'
   | 'progress'
   | 'analytics'
-  | 'google-fit'
+  | 'bioimpedancia'
   | 'subscriptions'
   | 'apps'
   | 'help'
@@ -114,7 +115,7 @@ const CompleteDashboardPage = () => {
     { id: 'saboteur-test', icon: Settings, label: 'Teste de Sabotadores', color: 'text-gray-500' },
     { id: 'progress', icon: TrendingUp, label: 'Meu Progresso', color: 'text-cyan-500' },
     { id: 'analytics', icon: TrendingUp, label: 'Análise Avançada', color: 'text-indigo-500' },
-    { id: 'google-fit', icon: Activity, label: 'Google Fit', color: 'text-green-600' },
+    { id: 'bioimpedancia', icon: Activity, label: 'Bioimpedância', color: 'text-blue-500' },
     { id: 'subscriptions', icon: CreditCard, label: 'Assinaturas', color: 'text-purple-600' },
     { id: 'apps', icon: Grid3X3, label: 'Apps', color: 'text-gray-600' },
     { id: 'profile', icon: UserIcon, label: 'Meu Perfil', color: 'text-blue-400' },
@@ -133,6 +134,8 @@ const CompleteDashboardPage = () => {
         return <MyProgress />;
       case 'saboteur-test':
         return <SaboteurTest />;
+      case 'bioimpedancia':
+        return <BioimpedanciaPage />;
       case 'sessions':
         return <div className="p-6 text-center text-muted-foreground">Sessões de usuário em desenvolvimento...</div>;
       case 'ranking':

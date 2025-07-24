@@ -15,6 +15,7 @@ interface SidebarProps {
 }
 
 const menuItems = [
+  { id: 'bioimpedancia', label: 'Bioimpedância', icon: Activity, path: '/app/bioimpedancia' },
   { id: 'dashboard', label: 'Dashboard', icon: Home, path: '/' },
   { id: 'inicio', label: 'Missão do Dia', icon: Zap, path: '/missions', highlight: true },
   { id: 'plataforma-sonhos', label: 'Plataforma dos Sonhos', icon: GraduationCap, path: '/app/courses' },

@@ -17,6 +17,8 @@ import NotFound from "./pages/NotFound";
 import MyProgress from "./components/MyProgress";
 import ColorTest from "./components/ColorTest";
 import CSSDebug from "./components/CSSDebug";
+import BodyChartsPage from "./pages/BodyChartsPage";
+import BioimpedanciaPage from "./pages/BioimpedanciaPage";
 
 const queryClient = new QueryClient();
 
@@ -56,6 +58,7 @@ const App = () => (
             <Route path="saboteur-test" element={<div className="p-6"><h1 className="text-2xl font-bold">Teste de Sabotadores</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />
             <Route path="progress" element={<ProgressPage />} />
             <Route path="analytics" element={<div className="p-6"><h1 className="text-2xl font-bold">Análise Avançada</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />
+            <Route path="bioimpedancia" element={<BioimpedanciaPage />} />
             <Route path="google-fit" element={<div className="p-6"><h1 className="text-2xl font-bold">Google Fit</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />
             <Route path="color-test" element={<ColorTest />} />
             <Route path="css-debug" element={<CSSDebug />} />
@@ -68,6 +71,7 @@ const App = () => (
           <Route path="/ranking" element={<div className="min-h-screen bg-background p-6"><h1 className="text-2xl font-bold">Ranking</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />
           <Route path="/about" element={<div className="min-h-screen bg-background p-6"><h1 className="text-2xl font-bold">Sobre</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />
           <Route path="/courses" element={<Layout />} />
+          <Route path="/body-charts" element={<BodyChartsPage />} />
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

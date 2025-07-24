@@ -16,6 +16,7 @@ import {
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { WeightMeasurement } from '@/hooks/useProgressData';
+import { PersonIcon, BodyCompositionIcon, HealthIndicatorIcon } from '@/components/ui/person-icon';
 
 interface ProgressChartsProps {
   measurements: WeightMeasurement[];
@@ -77,13 +78,21 @@ export default function ProgressCharts({ measurements }: ProgressChartsProps) {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              📊 Evolução do Peso
+              <PersonIcon size="md" variant="filled" color="#F97316" />
+              <span>Evolução do Peso</span>
             </CardTitle>
             <CardDescription>
               Histórico de pesagens ao longo do tempo
             </CardDescription>
           </CardHeader>
           <CardContent>
+            <div className="flex items-center gap-4 mb-4">
+              <PersonIcon size="lg" variant="gradient" color="#F97316" />
+              <div className="flex-1">
+                <p className="text-sm text-muted-foreground">Seu progresso de peso ao longo do tempo</p>
+                <p className="text-xs text-muted-foreground">O boneco representa você e sua jornada de saúde</p>
+              </div>
+            </div>
             <div className="h-64 bg-muted/20 rounded-lg flex items-center justify-center">
               <p className="text-muted-foreground">Nenhuma medição registrada</p>
             </div>
@@ -93,7 +102,8 @@ export default function ProgressCharts({ measurements }: ProgressChartsProps) {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              🏃‍♂️ Composição Corporal
+              <PersonIcon size="md" variant="filled" color="#10B981" />
+              <span>Composição Corporal</span>
             </CardTitle>
             <CardDescription>
               Gordura corporal vs massa muscular
@@ -115,13 +125,21 @@ export default function ProgressCharts({ measurements }: ProgressChartsProps) {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            📊 Evolução do Peso
+            <PersonIcon size="md" variant="filled" color="#F97316" />
+            <span>Evolução do Peso</span>
           </CardTitle>
           <CardDescription>
             Histórico de pesagens ao longo do tempo
           </CardDescription>
         </CardHeader>
         <CardContent>
+          <div className="flex items-center gap-4 mb-4">
+            <PersonIcon size="lg" variant="gradient" color="#F97316" />
+            <div className="flex-1">
+              <p className="text-sm text-muted-foreground">Seu progresso de peso ao longo do tempo</p>
+              <p className="text-xs text-muted-foreground">O boneco representa você e sua jornada de saúde</p>
+            </div>
+          </div>
           <ResponsiveContainer width="100%" height={256}>
             <AreaChart data={chartData}>
               <defs>
@@ -163,13 +181,28 @@ export default function ProgressCharts({ measurements }: ProgressChartsProps) {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            🏃‍♂️ Composição Corporal
+            <PersonIcon size="md" variant="filled" color="#10B981" />
+            <span>Composição Corporal</span>
           </CardTitle>
           <CardDescription>
             Gordura corporal vs massa muscular
           </CardDescription>
         </CardHeader>
         <CardContent>
+          <div className="flex items-center gap-4 mb-4">
+            <PersonIcon size="lg" variant="gradient" color="#10B981" />
+            <div className="flex-1">
+              <p className="text-sm text-muted-foreground">Análise detalhada da composição do seu corpo</p>
+              <p className="text-xs text-muted-foreground">Cada componente é representado por cores diferentes</p>
+            </div>
+          </div>
+          
+          {/* Ícones de composição corporal */}
+          <div className="grid grid-cols-2 gap-2 mb-4">
+            <BodyCompositionIcon type="fat" size="sm" />
+            <BodyCompositionIcon type="muscle" size="sm" />
+          </div>
+          
           <ResponsiveContainer width="100%" height={256}>
             <ComposedChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" opacity={0.3} />

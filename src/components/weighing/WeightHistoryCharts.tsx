@@ -1,12 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area } from 'recharts';
-import { Scale, TrendingUp, Activity, Droplets } from 'lucide-react';
+import { Scale, TrendingUp, Activity, Droplets, Eye, BarChart3 } from 'lucide-react';
 import { useWeightMeasurement } from '@/hooks/useWeightMeasurement';
 import { Badge } from '@/components/ui/badge';
+import { PersonIcon, BodyCompositionIcon, HealthIndicatorIcon } from '@/components/ui/person-icon';
+import { BodyChart, BodyCompositionChart, BodyTrendChart } from '@/components/ui/body-chart';
+import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const WeightHistoryCharts: React.FC = () => {
   const { measurements, loading, stats } = useWeightMeasurement();
+  const [viewMode, setViewMode] = useState<'charts' | 'body'>('charts');
 
   if (loading) {
     return (
@@ -71,6 +76,36 @@ const WeightHistoryCharts: React.FC = () => {
 
   return (
     <div className="space-y-6">
+      {/* Seletor de Modo de Visualização */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <PersonIcon size="md" variant="filled" color="#F97316" />
+            <span>Histórico de Pesagens</span>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex gap-2">
+            <Button
+              variant={viewMode === 'charts' ? 'default' : 'outline'}
+              onClick={() => setViewMode('charts')}
+              className="flex items-center gap-2"
+            >
+              <BarChart3 className="h-4 w-4" />
+              Gráficos Tradicionais
+            </Button>
+            <Button
+              variant={viewMode === 'body' ? 'default' : 'outline'}
+              onClick={() => setViewMode('body')}
+              className="flex items-center gap-2"
+            >
+              <Eye className="h-4 w-4" />
+              Gráficos Dentro do Corpo
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Estatísticas Resumo */}
       {stats && (
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -140,84 +175,171 @@ const WeightHistoryCharts: React.FC = () => {
         </div>
       )}
 
-      {/* Gráfico de Peso */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Scale className="h-5 w-5" />
-            Evolução do Peso
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ResponsiveContainer width="100%" height={300}>
-            <AreaChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="date" />
-              <YAxis />
-              <Tooltip 
-                labelFormatter={(label) => `Data: ${label}`}
-                formatter={(value, name) => [`${value}kg`, 'Peso']}
-              />
-              <Area 
-                type="monotone" 
-                dataKey="peso" 
-                stroke="hsl(var(--primary))" 
-                fill="hsl(var(--primary) / 0.2)" 
-                strokeWidth={2}
-              />
-            </AreaChart>
-          </ResponsiveContainer>
-        </CardContent>
-      </Card>
-
-      {/* Gráfico de Composição Corporal */}
-      {chartData.some(d => d.gordura_corporal || d.massa_muscular || d.agua_corporal) && (
+      {viewMode === 'charts' ? (
+        // Gráficos Tradicionais
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Activity className="h-5 w-5" />
-              Composição Corporal
+              <PersonIcon size="md" variant="filled" color="#F97316" />
+              <span>Evolução do Peso</span>
             </CardTitle>
           </CardHeader>
           <CardContent>
+            <div className="flex items-center gap-4 mb-4">
+              <PersonIcon size="lg" variant="gradient" color="#F97316" />
+              <div className="flex-1">
+                <p className="text-sm text-muted-foreground">Seu progresso de peso ao longo do tempo</p>
+                <p className="text-xs text-muted-foreground">O boneco representa você e sua jornada de saúde</p>
+              </div>
+            </div>
             <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={chartData}>
+              <AreaChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="date" />
                 <YAxis />
-                <Tooltip />
-                <Legend />
-                {chartData.some(d => d.gordura_corporal) && (
-                  <Line 
-                    type="monotone" 
-                    dataKey="gordura_corporal" 
-                    stroke="#ff7300" 
-                    strokeWidth={2}
-                    name="Gordura Corporal (%)"
-                  />
-                )}
-                {chartData.some(d => d.massa_muscular) && (
-                  <Line 
-                    type="monotone" 
-                    dataKey="massa_muscular" 
-                    stroke="#00ff00" 
-                    strokeWidth={2}
-                    name="Massa Muscular (kg)"
-                  />
-                )}
-                {chartData.some(d => d.agua_corporal) && (
-                  <Line 
-                    type="monotone" 
-                    dataKey="agua_corporal" 
-                    stroke="#0080ff" 
-                    strokeWidth={2}
-                    name="Água Corporal (%)"
-                  />
-                )}
-              </LineChart>
+                <Tooltip 
+                  labelFormatter={(label) => `Data: ${label}`}
+                  formatter={(value, name) => [`${value}kg`, 'Peso']}
+                />
+                <Area 
+                  type="monotone" 
+                  dataKey="peso" 
+                  stroke="hsl(var(--primary))" 
+                  fill="hsl(var(--primary) / 0.2)" 
+                  strokeWidth={2}
+                />
+              </AreaChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>
+      ) : (
+        // Gráficos Dentro do Corpo
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {stats && (
+            <BodyChart
+              title="Peso, Altura e TMB"
+              data={{
+                imc: stats.currentIMC,
+                idade: 43, // Idade padrão - deve vir dos dados do usuário
+                tmb: 1459, // TMB calculado - deve vir dos dados
+                peso: stats.currentWeight,
+                altura: 170, // Altura padrão - deve vir dos dados do usuário
+                circunferencia: 85 // Circunferência padrão - deve vir dos dados
+              }}
+              showRisk={true}
+              showSymptoms={true}
+            />
+          )}
+
+          {chartData.length > 0 && (
+            <BodyTrendChart
+              data={chartData.map((d, i) => ({
+                date: d.date,
+                value: d.peso,
+                type: 'peso' as const
+              }))}
+            />
+          )}
+        </div>
+      )}
+
+      {/* Gráfico de Composição Corporal */}
+      {chartData.some(d => d.gordura_corporal || d.massa_muscular || d.agua_corporal) && (
+        viewMode === 'charts' ? (
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <PersonIcon size="md" variant="filled" color="#10B981" />
+                <span>Composição Corporal</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex items-center gap-4 mb-4">
+                <PersonIcon size="lg" variant="gradient" color="#10B981" />
+                <div className="flex-1">
+                  <p className="text-sm text-muted-foreground">Análise detalhada da composição do seu corpo</p>
+                  <p className="text-xs text-muted-foreground">Cada componente é representado por cores diferentes</p>
+                </div>
+              </div>
+              
+              {/* Ícones de composição corporal */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4">
+                {chartData.some(d => d.gordura_corporal) && (
+                  <BodyCompositionIcon type="fat" size="sm" />
+                )}
+                {chartData.some(d => d.massa_muscular) && (
+                  <BodyCompositionIcon type="muscle" size="sm" />
+                )}
+                {chartData.some(d => d.agua_corporal) && (
+                  <BodyCompositionIcon type="water" size="sm" />
+                )}
+              </div>
+              
+              <ResponsiveContainer width="100%" height={300}>
+                <LineChart data={chartData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="date" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  {chartData.some(d => d.gordura_corporal) && (
+                    <Line 
+                      type="monotone" 
+                      dataKey="gordura_corporal" 
+                      stroke="#ff7300" 
+                      strokeWidth={2}
+                      name="Gordura Corporal (%)"
+                    />
+                  )}
+                  {chartData.some(d => d.massa_muscular) && (
+                    <Line 
+                      type="monotone" 
+                      dataKey="massa_muscular" 
+                      stroke="#00ff00" 
+                      strokeWidth={2}
+                      name="Massa Muscular (kg)"
+                    />
+                  )}
+                  {chartData.some(d => d.agua_corporal) && (
+                    <Line 
+                      type="monotone" 
+                      dataKey="agua_corporal" 
+                      stroke="#0080ff" 
+                      strokeWidth={2}
+                      name="Água Corporal (%)"
+                    />
+                  )}
+                </LineChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+        ) : (
+          // Gráfico de composição corporal dentro do corpo
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {measurements.length > 0 && (
+              <BodyCompositionChart
+                data={{
+                  gordura: measurements[0].gordura_corporal_percent || 20,
+                  musculo: measurements[0].massa_muscular_kg || 35,
+                  agua: measurements[0].agua_corporal_percent || 45,
+                  osso: measurements[0].osso_kg || 15
+                }}
+              />
+            )}
+
+            {chartData.length > 0 && (
+              <BodyTrendChart
+                data={chartData
+                  .filter(d => d.gordura_corporal)
+                  .map((d, i) => ({
+                    date: d.date,
+                    value: d.gordura_corporal,
+                    type: 'gordura' as const
+                  }))}
+              />
+            )}
+          </div>
+        )
       )}
 
       {/* Gráfico de IMC */}
@@ -225,11 +347,34 @@ const WeightHistoryCharts: React.FC = () => {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <TrendingUp className="h-5 w-5" />
-              Evolução do IMC
+              <PersonIcon size="md" variant="filled" color="#3B82F6" />
+              <span>Evolução do IMC</span>
             </CardTitle>
           </CardHeader>
           <CardContent>
+            <div className="flex items-center gap-4 mb-4">
+              <PersonIcon size="lg" variant="gradient" color="#3B82F6" />
+              <div className="flex-1">
+                <p className="text-sm text-muted-foreground">Índice de Massa Corporal ao longo do tempo</p>
+                <p className="text-xs text-muted-foreground">Acompanhe sua saúde através do IMC</p>
+              </div>
+            </div>
+            
+            {/* Indicador de saúde baseado no IMC */}
+            {stats && stats.currentIMC && (
+              <div className="mb-4">
+                <HealthIndicatorIcon 
+                  status={
+                    stats.currentIMC < 18.5 ? 'warning' :
+                    stats.currentIMC >= 18.5 && stats.currentIMC < 25 ? 'excellent' :
+                    stats.currentIMC >= 25 && stats.currentIMC < 30 ? 'good' :
+                    'danger'
+                  }
+                  size="md"
+                />
+              </div>
+            )}
+            
             <ResponsiveContainer width="100%" height={300}>
               <AreaChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" />

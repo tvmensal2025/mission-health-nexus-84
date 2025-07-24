@@ -8,6 +8,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { Activity, TrendingUp, Heart, Droplets, Zap, Shield } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, RadialBarChart, RadialBar, PieChart, Pie, Cell } from 'recharts';
+import { PersonIcon, BodyCompositionIcon, HealthIndicatorIcon } from '@/components/ui/person-icon';
 
 interface BioimpedanceData {
   id: string;
@@ -306,10 +307,29 @@ export const BioimpedanceAnalysis: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <Card>
               <CardHeader>
-                <CardTitle>Composição Corporal Atual</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <PersonIcon size="md" variant="filled" color="#10B981" />
+                  <span>Composição Corporal Atual</span>
+                </CardTitle>
                 <CardDescription>Distribuição dos componentes do seu corpo</CardDescription>
               </CardHeader>
               <CardContent>
+                <div className="flex items-center gap-4 mb-4">
+                  <PersonIcon size="lg" variant="gradient" color="#10B981" />
+                  <div className="flex-1">
+                    <p className="text-sm text-muted-foreground">Análise detalhada da composição do seu corpo</p>
+                    <p className="text-xs text-muted-foreground">Cada componente é representado por cores diferentes</p>
+                  </div>
+                </div>
+                
+                {/* Ícones de composição corporal */}
+                <div className="grid grid-cols-2 gap-2 mb-4">
+                  <BodyCompositionIcon type="muscle" size="sm" />
+                  <BodyCompositionIcon type="fat" size="sm" />
+                  <BodyCompositionIcon type="water" size="sm" />
+                  <BodyCompositionIcon type="bone" size="sm" />
+                </div>
+                
                 <ResponsiveContainer width="100%" height={300}>
                   <PieChart>
                     <Pie

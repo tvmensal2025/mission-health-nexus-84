@@ -68,6 +68,8 @@ export const CourseModal = ({ isOpen, onClose, onSubmit }: CourseModalProps) => 
     price: 0
   });
   const [coverImage, setCoverImage] = useState<File | null>(null);
+  const [imageUrl, setImageUrl] = useState<string>("");
+  const [imageSource, setImageSource] = useState<'file' | 'url'>('file');
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -90,6 +92,22 @@ export const CourseModal = ({ isOpen, onClose, onSubmit }: CourseModalProps) => 
     const file = event.target.files?.[0];
     if (file) {
       setCoverImage(file);
+      setImageSource('file');
+    }
+  };
+
+  const handleImageUrlChange = (url: string) => {
+    setImageUrl(url);
+    setImageSource('url');
+    setCoverImage(null);
+  };
+
+  const isValidImageUrl = (url: string): boolean => {
+    try {
+      const urlObj = new URL(url);
+      return urlObj.protocol === 'http:' || urlObj.protocol === 'https:';
+    } catch {
+      return false;
     }
   };
 
@@ -133,9 +151,9 @@ export const CourseModal = ({ isOpen, onClose, onSubmit }: CourseModalProps) => 
     try {
       const courseData = {
         ...formData,
-        // Aqui você poderia fazer upload da imagem para um serviço de armazenamento
-        // e então atribuir a URL ao thumbnail_url
-        thumbnail_url: coverImage ? URL.createObjectURL(coverImage) : undefined
+        // Usar URL da imagem se fornecida, senão usar o arquivo
+        thumbnail_url: imageSource === 'url' && imageUrl ? imageUrl : 
+                     coverImage ? URL.createObjectURL(coverImage) : undefined
       };
       
       await onSubmit(courseData);
@@ -176,6 +194,8 @@ export const CourseModal = ({ isOpen, onClose, onSubmit }: CourseModalProps) => 
         price: 0
       });
       setCoverImage(null);
+      setImageUrl("");
+      setImageSource('file');
       setErrors({});
       onClose();
     }
@@ -357,31 +377,114 @@ export const CourseModal = ({ isOpen, onClose, onSubmit }: CourseModalProps) => 
 
           {/* Imagem de Capa */}
           <div className="space-y-2">
-            <Label htmlFor="coverImage" className="text-sm font-medium text-gray-300">
+            <Label className="text-sm font-medium text-gray-300">
               🖼️ Imagem de Capa
             </Label>
-            <div className="border-2 border-dashed border-gray-600 rounded-lg p-6 text-center hover:border-gray-500 transition-colors">
-              <input
-                id="coverImage"
-                type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
-                className="hidden"
-              />
-              <label htmlFor="coverImage" className="cursor-pointer">
-                <ImageIcon className="h-12 w-12 text-gray-400 mx-auto mb-2" />
-                <p className="text-gray-300 mb-1">
-                  {coverImage ? coverImage.name : "📁 Escolher Arquivo"}
-                </p>
-                <p className="text-gray-400 text-sm">
-                  PNG, JPG até 5MB
-                </p>
-              </label>
+            
+            {/* Seletor de método */}
+            <div className="flex gap-2 mb-4">
+              <Button
+                type="button"
+                variant={imageSource === 'file' ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setImageSource('file')}
+                className={imageSource === 'file' ? 'bg-red-500 hover:bg-red-600' : 'border-gray-600 text-gray-300'}
+              >
+                📁 Upload Arquivo
+              </Button>
+              <Button
+                type="button"
+                variant={imageSource === 'url' ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setImageSource('url')}
+                className={imageSource === 'url' ? 'bg-red-500 hover:bg-red-600' : 'border-gray-600 text-gray-300'}
+              >
+                🔗 Link da Imagem
+              </Button>
             </div>
-            {coverImage && (
+
+            {/* Upload de arquivo */}
+            {imageSource === 'file' && (
+              <div className="border-2 border-dashed border-gray-600 rounded-lg p-6 text-center hover:border-gray-500 transition-colors">
+                <input
+                  id="coverImage"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  className="hidden"
+                />
+                <label htmlFor="coverImage" className="cursor-pointer">
+                  <ImageIcon className="h-12 w-12 text-gray-400 mx-auto mb-2" />
+                  <p className="text-gray-300 mb-1">
+                    {coverImage ? coverImage.name : "📁 Escolher Arquivo"}
+                  </p>
+                  <p className="text-gray-400 text-sm">
+                    PNG, JPG até 5MB
+                  </p>
+                </label>
+              </div>
+            )}
+
+            {/* Input de URL */}
+            {imageSource === 'url' && (
+              <div className="space-y-2">
+                <Input
+                  type="url"
+                  placeholder="https://exemplo.com/imagem.jpg"
+                  value={imageUrl}
+                  onChange={(e) => handleImageUrlChange(e.target.value)}
+                  className="bg-gray-800 border-gray-600 text-white placeholder-gray-400"
+                />
+                <p className="text-gray-400 text-xs">
+                  Cole aqui o link direto da imagem (deve terminar em .jpg, .png, .gif, etc.)
+                </p>
+              </div>
+            )}
+
+            {/* Status da imagem */}
+            {coverImage && imageSource === 'file' && (
               <div className="flex items-center gap-2 text-green-400 text-sm">
                 <CheckCircle className="h-4 w-4" />
                 Arquivo selecionado: {coverImage.name}
+              </div>
+            )}
+            
+            {imageUrl && imageSource === 'url' && (
+              <div className="flex items-center gap-2 text-green-400 text-sm">
+                <CheckCircle className="h-4 w-4" />
+                URL válida: {imageUrl.substring(0, 50)}...
+              </div>
+            )}
+
+            {/* Preview da imagem */}
+            {(coverImage || (imageUrl && imageSource === 'url')) && (
+              <div className="mt-4">
+                <p className="text-sm text-gray-300 mb-2">Preview:</p>
+                <div className="w-32 h-20 bg-gray-800 rounded-lg overflow-hidden border border-gray-600">
+                  {imageSource === 'file' && coverImage && (
+                    <img 
+                      src={URL.createObjectURL(coverImage)} 
+                      alt="Preview" 
+                      className="w-full h-full object-cover"
+                    />
+                  )}
+                  {imageSource === 'url' && imageUrl && (
+                    <>
+                      <img 
+                        src={imageUrl} 
+                        alt="Preview" 
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none';
+                          e.currentTarget.nextElementSibling!.style.display = 'flex';
+                        }}
+                      />
+                      <div className="w-full h-full flex items-center justify-center text-gray-400 text-xs" style={{display: 'none'}}>
+                        Erro ao carregar
+                      </div>
+                    </>
+                  )}
+                </div>
               </div>
             )}
           </div>

@@ -281,15 +281,15 @@ export const XiaomiScaleButton: React.FC = () => {
 
       toast({
         title: "Pesagem salva com sucesso!",
-        description: `Peso: ${scaleData.weight}kg | IMC: ${scaleData.bmi}`,
+        description: `Peso: ${scaleData.weight}kg | IMC: ${scaleData.bmi.toFixed(1)}`,
       });
 
       setCurrentStep('completed');
       
-      // Recarregar página após 2 segundos
+      // Aumentar tempo de exibição para 5 segundos
       setTimeout(() => {
         window.location.reload();
-      }, 2000);
+      }, 5000);
 
     } catch (error) {
       console.error('Erro ao salvar:', error);
@@ -661,93 +661,60 @@ export const XiaomiScaleButton: React.FC = () => {
       case 'completed':
         return (
           <div className="text-center space-y-6">
-            <div className="text-6xl mb-4">📈</div>
-            <h2 className="text-2xl font-bold">Gráficos Atualizados</h2>
+            <div className="text-6xl mb-4 animate-bounce">🎉</div>
+            <h2 className="text-2xl font-bold">Pesagem Concluída!</h2>
+            <p className="text-muted-foreground">Seus dados foram salvos com sucesso</p>
             
-            <div className="grid grid-cols-3 gap-4">
-              <Card>
-                <CardContent className="p-4 text-center">
-                  <div className="text-2xl mb-2">⚖️</div>
-                  <div className="text-lg font-bold">PESO</div>
-                  <div className="text-2xl font-bold text-primary">70.5 kg</div>
-                  <div className="flex items-center justify-center gap-1 text-green-500">
-                    <TrendingDown className="h-4 w-4" />
-                    <span className="text-sm">-2.3</span>
+            {/* Resultado da pesagem */}
+            <Card className="bg-gradient-to-r from-green-50 to-blue-50 border-green-200">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-green-800">
+                  <CheckCircle className="h-5 w-5" />
+                  Resultado da Pesagem
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {scaleData && (
+                  <div className="grid grid-cols-2 gap-4 text-sm">
+                    <div className="flex justify-between">
+                      <span className="font-medium">Peso:</span>
+                      <span className="font-bold text-green-600">{scaleData.weight} kg</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="font-medium">IMC:</span>
+                      <span className="font-bold text-green-600">{scaleData.bmi.toFixed(1)}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="font-medium">Gordura:</span>
+                      <span className="font-bold text-green-600">{scaleData.bodyFat}%</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="font-medium">Músculo:</span>
+                      <span className="font-bold text-green-600">{scaleData.muscleMass} kg</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="font-medium">Água:</span>
+                      <span className="font-bold text-green-600">{scaleData.waterPercentage}%</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="font-medium">Status:</span>
+                      <span className={`font-bold ${
+                        scaleData.bmi < 18.5 ? 'text-blue-600' :
+                        scaleData.bmi >= 25 && scaleData.bmi < 30 ? 'text-orange-600' :
+                        scaleData.bmi >= 30 ? 'text-red-600' : 'text-green-600'
+                      }`}>
+                        {scaleData.bmi < 18.5 ? 'Abaixo do peso' :
+                         scaleData.bmi >= 25 && scaleData.bmi < 30 ? 'Sobrepeso' :
+                         scaleData.bmi >= 30 ? 'Obesidade' : 'Peso normal'}
+                      </span>
+                    </div>
                   </div>
-                </CardContent>
-              </Card>
-              
-              <Card>
-                <CardContent className="p-4 text-center">
-                  <div className="text-2xl mb-2">📊</div>
-                  <div className="text-lg font-bold">IMC</div>
-                  <div className="text-2xl font-bold text-primary">22.4</div>
-                  <div className="flex items-center justify-center gap-1 text-green-500">
-                    <TrendingDown className="h-4 w-4" />
-                    <span className="text-sm">-0.8</span>
-                  </div>
-                </CardContent>
-              </Card>
-              
-              <Card>
-                <CardContent className="p-4 text-center">
-                  <div className="text-2xl mb-2">🎯</div>
-                  <div className="text-lg font-bold">META</div>
-                  <div className="text-2xl font-bold text-primary">68.0 kg</div>
-                  <div className="flex items-center justify-center gap-1 text-green-500">
-                    <CheckCircle className="h-4 w-4" />
-                    <span className="text-sm">68%</span>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-            
-            <div className="grid grid-cols-3 gap-4">
-              <Card>
-                <CardContent className="p-4 text-center">
-                  <div className="text-2xl mb-2">🩸</div>
-                  <div className="text-lg font-bold">GORD</div>
-                  <div className="text-2xl font-bold text-primary">18.2%</div>
-                  <div className="flex items-center justify-center gap-1 text-green-500">
-                    <TrendingDown className="h-4 w-4" />
-                    <span className="text-sm">-1.5</span>
-                  </div>
-                </CardContent>
-              </Card>
-              
-              <Card>
-                <CardContent className="p-4 text-center">
-                  <div className="text-2xl mb-2">💪</div>
-                  <div className="text-lg font-bold">MUSC</div>
-                  <div className="text-2xl font-bold text-primary">32.1 kg</div>
-                  <div className="flex items-center justify-center gap-1 text-green-500">
-                    <TrendingUp className="h-4 w-4" />
-                    <span className="text-sm">+0.8</span>
-                  </div>
-                </CardContent>
-              </Card>
-              
-              <Card>
-                <CardContent className="p-4 text-center">
-                  <div className="text-2xl mb-2">💧</div>
-                  <div className="text-lg font-bold">ÁGUA</div>
-                  <div className="text-2xl font-bold text-primary">58.3%</div>
-                  <div className="flex items-center justify-center gap-1 text-green-500">
-                    <TrendingUp className="h-4 w-4" />
-                    <span className="text-sm">+2.1</span>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-            
-            <Card className="bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200">
-              <CardContent className="p-4">
-                <h4 className="font-medium text-blue-800 mb-2">🎯 Fluxo Completo da Balança</h4>
-                <div className="space-y-1 text-sm text-blue-700">
-                  <p>🔍 CLICAR → 🔗 PAREAR → ⚙️ CALIBRAR → 👤 MEDIR → 📊 CAPTURAR</p>
-                  <p>📝 CONFIRMAR → 💾 SALVAR → 📈 ATUALIZAR → ✅ CONCLUÍDO</p>
-                  <p>⏱️ Tempo total: 10 segundos (5s calibração + 5s medição)</p>
-                  <p>📊 Dados salvos em todas as tabelas e gráficos</p>
+                )}
+                
+                <div className="mt-4 p-3 bg-blue-50 rounded-lg">
+                  <p className="text-sm text-blue-700">
+                    ⏱️ A página será atualizada em <span className="font-bold">5 segundos</span> para mostrar os novos gráficos
+                  </p>
                 </div>
               </CardContent>
             </Card>
@@ -755,9 +722,10 @@ export const XiaomiScaleButton: React.FC = () => {
             <Button 
               onClick={() => setIsOpen(false)}
               className="w-full"
+              variant="outline"
             >
               <CheckCircle className="mr-2 h-4 w-4" />
-              Concluído
+              Fechar e Ver Gráficos
             </Button>
           </div>
         );
