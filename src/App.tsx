@@ -19,6 +19,17 @@ import ColorTest from "./components/ColorTest";
 import CSSDebug from "./components/CSSDebug";
 import BodyChartsPage from "./pages/BodyChartsPage";
 import BioimpedanciaPage from "./pages/BioimpedanciaPage";
+import GraficosDemoPage from "./pages/GraficosDemoPage";
+import GraficosTestePage from "./pages/GraficosTestePage";
+import CharacterDemoPage from "./pages/CharacterDemoPage";
+import DemoVendaPage from "./pages/DemoVendaPage";
+import UserSessions from "./components/UserSessions";
+import QuestionBuilderPage from "./pages/QuestionBuilderPage";
+import { SabotadoresDemo } from "./pages/SabotadoresDemo";
+import SessionDetailPage from "./pages/SessionDetailPage";
+import ToolsManagementPage from "./pages/ToolsManagementPage";
+import ChallengesPage from "./pages/ChallengesPage";
+import ChallengeDetailPage from "./pages/ChallengeDetailPage";
 
 const queryClient = new QueryClient();
 
@@ -38,9 +49,22 @@ const App = () => (
           {/* Dashboard - standalone without layout */}
           <Route path="/dashboard" element={<CompleteDashboardPage />} />
           <Route path="/dashboard/progress" element={<MyProgress />} />
+          <Route path="/dashboard/sessions/:id" element={<SessionDetailPage />} />
           
           {/* Admin - standalone without layout */}
           <Route path="/admin" element={<AdminPage />} />
+          <Route path="/admin/questions" element={<QuestionBuilderPage />} />
+          <Route path="/admin/ferramentas" element={<ToolsManagementPage />} />
+          
+          {/* User Sessions - standalone without layout */}
+          <Route path="/sessions" element={<UserSessions />} />
+          
+          {/* Sistema de Sabotadores - standalone without layout */}
+          <Route path="/sabotadores-demo" element={<SabotadoresDemo />} />
+          
+          {/* Sistema de Desafios - standalone without layout */}
+          <Route path="/challenges" element={<ChallengesPage />} />
+          <Route path="/challenges/:id" element={<ChallengeDetailPage />} />
           
           {/* App routes with layout */}
           <Route path="/app" element={<Layout />}>
@@ -59,21 +83,24 @@ const App = () => (
             <Route path="progress" element={<ProgressPage />} />
             <Route path="analytics" element={<div className="p-6"><h1 className="text-2xl font-bold">Análise Avançada</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />
             <Route path="bioimpedancia" element={<BioimpedanciaPage />} />
-            <Route path="google-fit" element={<div className="p-6"><h1 className="text-2xl font-bold">Google Fit</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />
-            <Route path="color-test" element={<ColorTest />} />
-            <Route path="css-debug" element={<CSSDebug />} />
             <Route path="subscriptions" element={<div className="p-6"><h1 className="text-2xl font-bold">Assinaturas</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />
             <Route path="apps" element={<div className="p-6"><h1 className="text-2xl font-bold">Apps</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />
-            <Route path="help" element={<div className="p-6"><h1 className="text-2xl font-bold">Ajuda</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />
           </Route>
           
-          {/* Standalone routes */}
-          <Route path="/ranking" element={<div className="min-h-screen bg-background p-6"><h1 className="text-2xl font-bold">Ranking</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />
-          <Route path="/about" element={<div className="min-h-screen bg-background p-6"><h1 className="text-2xl font-bold">Sobre</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />
-          <Route path="/courses" element={<Layout />} />
+          {/* Standalone pages */}
+          <Route path="/index" element={<Index />} />
+          <Route path="/dashboard-page" element={<DashboardPage />} />
+          <Route path="/progress-page" element={<ProgressPage />} />
+          <Route path="/color-test" element={<ColorTest />} />
+          <Route path="/css-debug" element={<CSSDebug />} />
           <Route path="/body-charts" element={<BodyChartsPage />} />
+          <Route path="/bioimpedancia-page" element={<BioimpedanciaPage />} />
+          <Route path="/graficos-demo" element={<GraficosDemoPage />} />
+          <Route path="/graficos-teste" element={<GraficosTestePage />} />
+          <Route path="/character-demo" element={<CharacterDemoPage />} />
+          <Route path="/demo-venda" element={<DemoVendaPage />} />
           
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          {/* 404 */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

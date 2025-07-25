@@ -1,11 +1,15 @@
 import { Outlet, useLocation } from "react-router-dom";
 import Sidebar from "./Sidebar";
-import { useState, useEffect } from "react";
+import { useState, useEffect, ReactNode } from "react";
 import { Button } from "./ui/button";
 import { ChevronLeft, ChevronRight, Menu } from "lucide-react";
 import { PWAInstallPrompt } from "./PWAInstallPrompt";
 
-export default function Layout() {
+interface LayoutProps {
+  children?: ReactNode;
+}
+
+export default function Layout({ children }: LayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [bannerType, setBannerType] = useState<'video' | 'image'>('video');
   
@@ -127,42 +131,9 @@ export default function Layout() {
             </div>
           </div>
           
-          {/* Carrosséis de Cursos */}
-          <div className="container mx-auto px-6 py-8 space-y-12">
-            {courseSections.map((section, sectionIndex) => (
-              <div key={sectionIndex} className="space-y-6">
-                {/* Título da seção */}
-                <div className="bg-gray-800 px-6 py-4 rounded-lg">
-                  <h2 className="text-2xl font-bold text-white">{section.title}</h2>
-                  <span className="text-gray-400 text-sm">{section.courses.length} cursos</span>
-                </div>
-                
-                {/* Grid de Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                  {section.courses.map((course) => (
-                    <div
-                      key={course.id}
-                      className="flex-shrink-0 w-80 h-[480px] bg-black rounded-lg cursor-pointer hover:scale-105 transition-all duration-300 relative overflow-hidden border border-red-500 flex flex-col items-center justify-center text-center p-6"
-                      onClick={() => console.log('Clicou no curso:', course.title)}
-                    >
-                      {/* Número grande */}
-                      <div className="text-8xl font-bold text-white mb-4">
-                        {course.image.split('?text=')[1]}
-                      </div>
-                      
-                      {/* Título */}
-                      <h3 className="text-2xl font-bold text-white mb-2">{course.title}</h3>
-                      
-                      {/* Número de aulas */}
-                      <p className="text-white/90 text-lg mb-6">{course.lessons} aulas</p>
-                      
-                      {/* Botão Assistir */}
-                      <div className="text-white text-lg font-semibold">Assistir</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
+          {/* Conteúdo das rotas filhas */}
+          <div className="container mx-auto px-6 py-8">
+            {children || <Outlet />}
           </div>
         </div>
       </main>
