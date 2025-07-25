@@ -1,8 +1,11 @@
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useState, useEffect } from "react";
+import { User } from "@supabase/supabase-js";
+import { supabase } from "@/integrations/supabase/client";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import Index from "./pages/Index";
 import LandingPage from "./pages/LandingPage";
@@ -31,6 +34,50 @@ import UserSessions from "./components/UserSessions";
 // import ToolsManagementPage from "./pages/ToolsManagementPage";
 import ChallengesPage from "./pages/ChallengesPage";
 import ChallengeDetailPage from "./pages/ChallengeDetailPage";
+
+// Componente para lidar com autenticação na rota de sessões
+const SessionRoute = () => {
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+      setLoading(false);
+      
+      if (!session) {
+        navigate("/auth");
+      }
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setUser(session?.user ?? null);
+        if (!session) {
+          navigate("/auth");
+        }
+      }
+    );
+
+    return () => subscription.unsubscribe();
+  }, [navigate]);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Carregando...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) return null;
+
+  return <UserSessions user={user} />;
+};
 
 const queryClient = new QueryClient();
 
@@ -63,7 +110,7 @@ const App = () => (
             <Route index element={<CoursePlatform viewMode="courses" />} />
             <Route path="missions" element={<MissionSystem />} />
             <Route path="courses" element={<CoursePlatform viewMode="courses" />} />
-            <Route path="sessions" element={<UserSessions user={null} />} />
+            <Route path="sessions" element={<SessionRoute />} />
             <Route path="ranking" element={<div className="p-6"><h1 className="text-2xl font-bold">Ranking</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />
             <Route path="assessments" element={<div className="p-6"><h1 className="text-2xl font-bold">Avaliações</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />
             <Route path="weekly" element={<div className="p-6"><h1 className="text-2xl font-bold">📊 Semanal</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />

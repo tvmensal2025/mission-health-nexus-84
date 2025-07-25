@@ -29,9 +29,7 @@ import WeighingMonitoring from "@/components/admin/WeighingMonitoring";
 import AdvancedReports from "@/components/admin/AdvancedReports";
 import { CourseManagement } from "@/components/admin/CourseManagement";
 import DebugDataVerification from "@/components/DebugDataVerification";
-// import IntegrationManagementPanel from "@/components/admin/PaymentManagementPanel";
-// import SessionManagement from "@/components/admin/SessionManagement";
-// import SystemStatus from "@/components/SystemStatus";
+import ToolsManagement from "@/components/admin/ToolsManagement";
 
 const AdminPage = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -159,7 +157,7 @@ const AdminPage = () => {
       case 'payments':
         return <div className="text-center py-8 text-muted-foreground">Gerenciamento de Pagamentos em desenvolvimento...</div>;
       case 'sessions':
-        return <div className="text-center py-8 text-muted-foreground">Gerenciamento de Sessões em desenvolvimento...</div>;
+        return <ToolsManagement user={user} />;
       case 'devices':
         return <div className="text-center py-8 text-muted-foreground">Gestão de Dispositivos em desenvolvimento...</div>;
       case 'settings':
