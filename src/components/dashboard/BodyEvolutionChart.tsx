@@ -5,6 +5,7 @@ import {
 } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
+import PersonagemCorporal3D from '@/components/PersonagemCorporal3D';
 
 interface BodyEvolutionChartProps {
   weightData: Array<{
@@ -66,67 +67,44 @@ export const BodyEvolutionChart: React.FC<BodyEvolutionChartProps> = ({
               <p className="text-sm text-gray-400">Distribuição atual dos componentes</p>
             </div>
             
-            {/* Silhueta com composição */}
+            {/* Modelo 3D com composição */}
             <div className="relative flex justify-center items-center">
-              <img
-                src="/images/silhueta.svg"
-                alt="Silhueta Humana"
-                width="200"
-                height="300"
-                className="text-white"
-                style={{
-                  opacity: 0.8,
-                  filter: 'brightness(0) invert(1)'
-                }}
-              />
-              
-              {/* Gradiente sobreposto para composição */}
-              <svg
-                width="200"
-                height="300"
-                viewBox="0 0 200 300"
-                className="absolute inset-0 pointer-events-none"
-              >
-                <defs>
-                  <linearGradient id="bodyGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#F59E0B" stopOpacity="0.3" />
-                    <stop offset="25%" stopColor="#10B981" stopOpacity="0.3" />
-                    <stop offset="50%" stopColor="#3B82F6" stopOpacity="0.3" />
-                    <stop offset="75%" stopColor="#8B5CF6" stopOpacity="0.3" />
-                    <stop offset="100%" stopColor="#F59E0B" stopOpacity="0.3" />
-                  </linearGradient>
-                </defs>
-                <rect x="0" y="0" width="200" height="300" fill="url(#bodyGradient)" />
-              </svg>
-
-              {/* Legenda da composição */}
-              <div className="absolute right-0 top-0 space-y-2">
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                  <div className="text-sm">
-                    <div className="font-bold text-yellow-400">{bodyCompositionData.gordura}%</div>
-                    <div className="text-xs text-gray-400">Gordura</div>
+              {/* Modelo 3D Feminino */}
+              <div className="relative">
+                <PersonagemCorporal3D 
+                  genero="feminino"
+                  className="w-48 h-72"
+                />
+                
+                {/* Legenda da composição sobreposta */}
+                <div className="absolute right-2 top-4 space-y-2 bg-black/70 p-3 rounded-lg backdrop-blur-sm">
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                    <div className="text-sm">
+                      <div className="font-bold text-yellow-400">{bodyCompositionData.gordura}%</div>
+                      <div className="text-xs text-gray-400">Gordura</div>
+                    </div>
                   </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                  <div className="text-sm">
-                    <div className="font-bold text-green-400">{bodyCompositionData.musculo}%</div>
-                    <div className="text-xs text-gray-400">Músculo</div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                    <div className="text-sm">
+                      <div className="font-bold text-green-400">{bodyCompositionData.musculo}%</div>
+                      <div className="text-xs text-gray-400">Músculo</div>
+                    </div>
                   </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-                  <div className="text-sm">
-                    <div className="font-bold text-blue-400">{bodyCompositionData.agua}%</div>
-                    <div className="text-xs text-gray-400">Água</div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+                    <div className="text-sm">
+                      <div className="font-bold text-blue-400">{bodyCompositionData.agua}%</div>
+                      <div className="text-xs text-gray-400">Água</div>
+                    </div>
                   </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
-                  <div className="text-sm">
-                    <div className="font-bold text-purple-400">{bodyCompositionData.osso}%</div>
-                    <div className="text-xs text-gray-400">Osso</div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
+                    <div className="text-sm">
+                      <div className="font-bold text-purple-400">{bodyCompositionData.osso}%</div>
+                      <div className="text-xs text-gray-400">Osso</div>
+                    </div>
                   </div>
                 </div>
               </div>
