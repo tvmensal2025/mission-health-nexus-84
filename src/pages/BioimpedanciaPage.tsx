@@ -5,6 +5,7 @@ import { Progress } from '@/components/ui/progress';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { Target, Activity, Heart, Brain, Scale, User, Mail, Printer, Info, TrendingUp, TrendingDown } from 'lucide-react';
+import PersonagemCorporal3D from '@/components/PersonagemCorporal3D';
 
 interface BioimpedanciaData {
   // Dados pessoais
@@ -177,25 +178,13 @@ const BioimpedanciaPage: React.FC = () => {
                   </div>
                 </div>
                 
-                {/* Silhueta vermelha */}
-                <div className="w-24 h-32 relative">
-                  <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 text-xs font-medium text-gray-300">
-                    {dados.altura} cm
-                  </div>
-                  <div className="absolute top-1/2 -right-8 transform -translate-y-1/2 text-xs font-medium text-gray-300">
-                    99,0 cm
-                  </div>
-                  <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs font-medium text-gray-300">
-                    {dados.peso.toFixed(1)} kg
-                  </div>
-                  
-                  <img 
-                    src="/images/silhueta.svg" 
-                    alt="Silhueta corporal"
-                    className="w-full h-full object-contain"
-                    style={{ filter: 'brightness(0) invert(1) sepia(1) hue-rotate(0deg) saturate(2)' }}
-                  />
-                </div>
+                {/* Modelo 3D Feminino */}
+                <PersonagemCorporal3D 
+                  genero="feminino"
+                  altura={dados.altura}
+                  peso={dados.peso}
+                  className="w-24 h-32"
+                />
               </div>
               
               <div className="text-center">
@@ -247,25 +236,13 @@ const BioimpedanciaPage: React.FC = () => {
                   </div>
                 </div>
                 
-                {/* Silhueta verde */}
-                <div className="w-24 h-32 relative">
-                  <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 text-xs font-medium text-gray-300">
-                    {dados.altura} cm
-                  </div>
-                  <div className="absolute top-1/2 -right-8 transform -translate-y-1/2 text-xs font-medium text-gray-300">
-                    99,0 cm
-                  </div>
-                  <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs font-medium text-gray-300">
-                    {dados.peso.toFixed(1)} kg
-                  </div>
-                  
-                  <img 
-                    src="/images/silhueta.svg" 
-                    alt="Silhueta corporal"
-                    className="w-full h-full object-contain"
-                    style={{ filter: 'brightness(0) invert(1) sepia(1) hue-rotate(90deg) saturate(2)' }}
-                  />
-                </div>
+                {/* Modelo 3D Feminino */}
+                <PersonagemCorporal3D 
+                  genero="feminino"
+                  altura={dados.altura}
+                  peso={dados.peso}
+                  className="w-24 h-32"
+                />
               </div>
               
               <div className="text-center">
@@ -314,25 +291,13 @@ const BioimpedanciaPage: React.FC = () => {
                   <div className="text-lg font-bold text-yellow-400">{dados.aguaIntracelular} litros</div>
                 </div>
                 
-                {/* Silhueta amarela */}
-                <div className="w-24 h-32 relative">
-                  <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 text-xs font-medium text-gray-300">
-                    {dados.altura} cm
-                  </div>
-                  <div className="absolute top-1/2 -right-8 transform -translate-y-1/2 text-xs font-medium text-gray-300">
-                    99,0 cm
-                  </div>
-                  <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs font-medium text-gray-300">
-                    {dados.peso.toFixed(1)} kg
-                  </div>
-                  
-                  <img 
-                    src="/images/silhueta.svg" 
-                    alt="Silhueta corporal"
-                    className="w-full h-full object-contain"
-                    style={{ filter: 'brightness(0) invert(1) sepia(1) hue-rotate(45deg) saturate(2)' }}
-                  />
-                </div>
+                {/* Modelo 3D Masculino */}
+                <PersonagemCorporal3D 
+                  genero="masculino"
+                  altura={dados.altura}
+                  peso={dados.peso}
+                  className="w-24 h-32"
+                />
               </div>
               
               <div className="text-center">
@@ -390,25 +355,13 @@ const BioimpedanciaPage: React.FC = () => {
               </div>
               
               <div className="flex items-center gap-4">
-                {/* Silhueta amarela */}
-                <div className="w-24 h-32 relative">
-                  <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 text-xs font-medium text-gray-300">
-                    {dados.altura} cm
-                  </div>
-                  <div className="absolute top-1/2 -right-8 transform -translate-y-1/2 text-xs font-medium text-gray-300">
-                    99,0 cm
-                  </div>
-                  <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs font-medium text-gray-300">
-                    {dados.peso.toFixed(1)} kg
-                  </div>
-                  
-                  <img 
-                    src="/images/silhueta.svg" 
-                    alt="Silhueta corporal"
-                    className="w-full h-full object-contain"
-                    style={{ filter: 'brightness(0) invert(1) sepia(1) hue-rotate(45deg) saturate(2)' }}
-                  />
-                </div>
+                {/* Modelo 3D Masculino */}
+                <PersonagemCorporal3D 
+                  genero="masculino"
+                  altura={dados.altura}
+                  peso={dados.peso}
+                  className="w-24 h-32"
+                />
                 
                 {/* Progress Bar Circular */}
                 <div className="flex-1">
