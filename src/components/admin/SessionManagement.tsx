@@ -126,7 +126,7 @@ export default function SessionManagement({ user }: SessionManagementProps) {
       .from('user_sessions')
       .select(`
         *,
-        sessions (title, description, difficulty)
+        sessions (*)
       `)
       .order('assigned_at', { ascending: false });
 
