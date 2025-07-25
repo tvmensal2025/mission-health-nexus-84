@@ -235,6 +235,7 @@ const WeightHistoryCharts: React.FC = () => {
             <BodyTrendChart
               data={chartData.map((d, i) => ({
                 date: d.date,
+                time: '00:00',
                 value: d.peso,
                 type: 'peso' as const
               }))}
@@ -333,6 +334,7 @@ const WeightHistoryCharts: React.FC = () => {
                   .filter(d => d.gordura_corporal)
                   .map((d, i) => ({
                     date: d.date,
+                    time: '00:00',
                     value: d.gordura_corporal,
                     type: 'gordura' as const
                   }))}

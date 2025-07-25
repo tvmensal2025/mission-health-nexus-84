@@ -19,15 +19,16 @@ import ColorTest from "./components/ColorTest";
 import CSSDebug from "./components/CSSDebug";
 import BodyChartsPage from "./pages/BodyChartsPage";
 import BioimpedanciaPage from "./pages/BioimpedanciaPage";
-import GraficosDemoPage from "./pages/GraficosDemoPage";
-import GraficosTestePage from "./pages/GraficosTestePage";
-import CharacterDemoPage from "./pages/CharacterDemoPage";
-import DemoVendaPage from "./pages/DemoVendaPage";
-import UserSessions from "./components/UserSessions";
-import QuestionBuilderPage from "./pages/QuestionBuilderPage";
-import { SabotadoresDemo } from "./pages/SabotadoresDemo";
-import SessionDetailPage from "./pages/SessionDetailPage";
-import ToolsManagementPage from "./pages/ToolsManagementPage";
+// Páginas comentadas temporariamente - não existem
+// import GraficosDemoPage from "./pages/GraficosDemoPage";
+// import GraficosTestePage from "./pages/GraficosTestePage";
+// import CharacterDemoPage from "./pages/CharacterDemoPage";
+// import DemoVendaPage from "./pages/DemoVendaPage";
+// import UserSessions from "./components/UserSessions";
+// import QuestionBuilderPage from "./pages/QuestionBuilderPage";
+// import { SabotadoresDemo } from "./pages/SabotadoresDemo";
+// import SessionDetailPage from "./pages/SessionDetailPage";
+// import ToolsManagementPage from "./pages/ToolsManagementPage";
 import ChallengesPage from "./pages/ChallengesPage";
 import ChallengeDetailPage from "./pages/ChallengeDetailPage";
 
@@ -49,18 +50,9 @@ const App = () => (
           {/* Dashboard - standalone without layout */}
           <Route path="/dashboard" element={<CompleteDashboardPage />} />
           <Route path="/dashboard/progress" element={<MyProgress />} />
-          <Route path="/dashboard/sessions/:id" element={<SessionDetailPage />} />
           
           {/* Admin - standalone without layout */}
           <Route path="/admin" element={<AdminPage />} />
-          <Route path="/admin/questions" element={<QuestionBuilderPage />} />
-          <Route path="/admin/ferramentas" element={<ToolsManagementPage />} />
-          
-          {/* User Sessions - standalone without layout */}
-          <Route path="/sessions" element={<UserSessions />} />
-          
-          {/* Sistema de Sabotadores - standalone without layout */}
-          <Route path="/sabotadores-demo" element={<SabotadoresDemo />} />
           
           {/* Sistema de Desafios - standalone without layout */}
           <Route path="/challenges" element={<ChallengesPage />} />
@@ -95,10 +87,11 @@ const App = () => (
           <Route path="/css-debug" element={<CSSDebug />} />
           <Route path="/body-charts" element={<BodyChartsPage />} />
           <Route path="/bioimpedancia-page" element={<BioimpedanciaPage />} />
-          <Route path="/graficos-demo" element={<GraficosDemoPage />} />
-          <Route path="/graficos-teste" element={<GraficosTestePage />} />
-          <Route path="/character-demo" element={<CharacterDemoPage />} />
-          <Route path="/demo-venda" element={<DemoVendaPage />} />
+          {/* Rotas comentadas - páginas não existem */}
+          {/* <Route path="/graficos-demo" element={<GraficosDemoPage />} /> */}
+          {/* <Route path="/graficos-teste" element={<GraficosTestePage />} /> */}
+          {/* <Route path="/character-demo" element={<CharacterDemoPage />} /> */}
+          {/* <Route path="/demo-venda" element={<DemoVendaPage />} /> */}
           
           {/* 404 */}
           <Route path="*" element={<NotFound />} />

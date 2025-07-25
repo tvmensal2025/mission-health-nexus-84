@@ -475,8 +475,12 @@ export const CourseModal = ({ isOpen, onClose, onSubmit }: CourseModalProps) => 
                         alt="Preview" 
                         className="w-full h-full object-cover"
                         onError={(e) => {
-                          e.currentTarget.style.display = 'none';
-                          e.currentTarget.nextElementSibling!.style.display = 'flex';
+                          const target = e.currentTarget as HTMLImageElement;
+                          target.style.display = 'none';
+                          const nextElement = target.nextElementSibling as HTMLElement;
+                          if (nextElement) {
+                            nextElement.style.display = 'flex';
+                          }
                         }}
                       />
                       <div className="w-full h-full flex items-center justify-center text-gray-400 text-xs" style={{display: 'none'}}>

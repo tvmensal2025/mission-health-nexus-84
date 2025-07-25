@@ -43,7 +43,10 @@ export const useDailyMissions = ({ user }: UseDailyMissionsProps) => {
       }
 
       if (existingSession) {
-        setSession(existingSession);
+        setSession({
+          ...existingSession,
+          completed_sections: existingSession.completed_sections as SectionType[]
+        });
         
         // Carregar respostas existentes
         const { data: responses, error: responsesError } = await supabase
@@ -89,7 +92,10 @@ export const useDailyMissions = ({ user }: UseDailyMissionsProps) => {
         if (createError) {
           console.error('Error creating session:', createError);
         } else if (createdSession) {
-          setSession(createdSession);
+          setSession({
+            ...createdSession,
+            completed_sections: createdSession.completed_sections as SectionType[]
+          });
         }
       }
     } catch (error) {
@@ -115,12 +121,12 @@ export const useDailyMissions = ({ user }: UseDailyMissionsProps) => {
       const question = dailyQuestions.find(q => q.id === questionId);
       if (!question) return;
 
-      const responseData: Omit<DailyResponse, 'id' | 'created_at'> = {
+      const responseData = {
         user_id: user.id,
         date: today,
         section: question.section,
         question_id: questionId,
-        answer: answer,
+        answer: answer.toString(),
         text_response: textResponse,
         points_earned: question.points
       };
@@ -178,6 +184,15 @@ export const useDailyMissions = ({ user }: UseDailyMissionsProps) => {
             total_points: prev.total_points + question.points
           } : null);
         }
+
+        const getSectionTitle = (section: string) => {
+          switch (section) {
+            case 'morning': return 'Manhã';
+            case 'habits': return 'Hábitos';
+            case 'mindset': return 'Mindset';
+            default: return section;
+          }
+        };
 
         toast({
           title: "Seção Completa! 🎉",

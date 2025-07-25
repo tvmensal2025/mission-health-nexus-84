@@ -35,7 +35,10 @@ export const useDailyMissionsEnhanced = ({ user }: UseDailyMissionsEnhancedProps
         .single();
 
       if (data && !error) {
-        setSession(data);
+        setSession({
+          ...data,
+          completed_sections: data.completed_sections as any[]
+        });
         setIsCompleted(data.is_completed);
         
         // Carregar respostas existentes

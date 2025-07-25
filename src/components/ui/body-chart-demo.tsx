@@ -71,11 +71,11 @@ export const BodyChartDemo: React.FC = () => {
       {/* Gráficos de Evolução */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <BodyTrendChart
-          data={trendData}
+          data={trendData.map(d => ({ ...d, time: '00:00' }))}
         />
 
         <BodyTrendChart
-          data={imcTrendData}
+          data={imcTrendData.map(d => ({ ...d, time: '00:00' }))}
         />
       </div>
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import Layout from '@/components/Layout';
 import { useUserProfile } from '@/hooks/useUserProfile';
+import { supabase } from '@/integrations/supabase/client';
 
 // Tipos de dados
 interface ChallengeDetail {
@@ -84,7 +85,14 @@ interface GroupMessage {
 const ChallengeDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { user } = useUserProfile();
+  const [user, setUser] = useState<any>(null);
+  const { profileData: userProfile } = useUserProfile(user);
+  
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      setUser(user);
+    });
+  }, []);
   const [activeTab, setActiveTab] = useState<string>('detalhes');
   const [logValue, setLogValue] = useState<string>('');
   const [logNotes, setLogNotes] = useState<string>('');

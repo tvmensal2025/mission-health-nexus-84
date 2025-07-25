@@ -35,7 +35,10 @@ export const useDailyMissionsFinal = ({ user }: UseDailyMissionsFinalProps) => {
         .single();
 
       if (data && !error) {
-        setSession(data);
+        setSession({
+          ...data,
+          completed_sections: data.completed_sections as any[]
+        });
         setIsCompleted(data.is_completed);
         
         // Carregar respostas existentes
@@ -149,15 +152,14 @@ export const useDailyMissionsFinal = ({ user }: UseDailyMissionsFinalProps) => {
           break;
 
         case 'small_victory':
-          // Salvar em uma tabela de reflexões pessoais
+          // Salvar em health_diary como reflexão
           await supabase
-            .from('personal_reflections')
+            .from('health_diary')
             .upsert({
               user_id: user.id,
               date: today,
-              type: 'small_victory',
-              content: answer.toString(),
-              source: 'daily_mission',
+              notes: answer.toString(),
+              mood_score: 5, // Valor padrão positivo
               created_at: new Date().toISOString()
             });
           break;
