@@ -24,7 +24,7 @@ import BioimpedanciaPage from "./pages/BioimpedanciaPage";
 // import GraficosTestePage from "./pages/GraficosTestePage";
 // import CharacterDemoPage from "./pages/CharacterDemoPage";
 // import DemoVendaPage from "./pages/DemoVendaPage";
-// import UserSessions from "./components/UserSessions";
+import UserSessions from "./components/UserSessions";
 // import QuestionBuilderPage from "./pages/QuestionBuilderPage";
 // import { SabotadoresDemo } from "./pages/SabotadoresDemo";
 // import SessionDetailPage from "./pages/SessionDetailPage";
@@ -63,7 +63,7 @@ const App = () => (
             <Route index element={<CoursePlatform viewMode="courses" />} />
             <Route path="missions" element={<MissionSystem />} />
             <Route path="courses" element={<CoursePlatform viewMode="courses" />} />
-            <Route path="sessions" element={<div className="p-6"><h1 className="text-2xl font-bold">Sessões</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />
+            <Route path="sessions" element={<UserSessions user={null} />} />
             <Route path="ranking" element={<div className="p-6"><h1 className="text-2xl font-bold">Ranking</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />
             <Route path="assessments" element={<div className="p-6"><h1 className="text-2xl font-bold">Avaliações</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />
             <Route path="weekly" element={<div className="p-6"><h1 className="text-2xl font-bold">📊 Semanal</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />

@@ -391,6 +391,51 @@ export type Database = {
         }
         Relationships: []
       }
+      custom_saboteurs: {
+        Row: {
+          characteristics: string[] | null
+          color: string | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          icon: string | null
+          id: string
+          impact: string | null
+          is_active: boolean | null
+          name: string
+          strategies: string[] | null
+          updated_at: string
+        }
+        Insert: {
+          characteristics?: string[] | null
+          color?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          icon?: string | null
+          id?: string
+          impact?: string | null
+          is_active?: boolean | null
+          name: string
+          strategies?: string[] | null
+          updated_at?: string
+        }
+        Update: {
+          characteristics?: string[] | null
+          color?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          icon?: string | null
+          id?: string
+          impact?: string | null
+          is_active?: boolean | null
+          name?: string
+          strategies?: string[] | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       daily_mission_sessions: {
         Row: {
           completed_sections: string[] | null
@@ -747,6 +792,57 @@ export type Database = {
         }
         Relationships: []
       }
+      sessions: {
+        Row: {
+          content: Json | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          difficulty: string | null
+          estimated_time: number | null
+          follow_up_questions: string[] | null
+          id: string
+          is_active: boolean | null
+          materials_needed: string[] | null
+          target_saboteurs: string[] | null
+          title: string
+          type: string | null
+          updated_at: string
+        }
+        Insert: {
+          content?: Json | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          difficulty?: string | null
+          estimated_time?: number | null
+          follow_up_questions?: string[] | null
+          id?: string
+          is_active?: boolean | null
+          materials_needed?: string[] | null
+          target_saboteurs?: string[] | null
+          title: string
+          type?: string | null
+          updated_at?: string
+        }
+        Update: {
+          content?: Json | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          difficulty?: string | null
+          estimated_time?: number | null
+          follow_up_questions?: string[] | null
+          id?: string
+          is_active?: boolean | null
+          materials_needed?: string[] | null
+          target_saboteurs?: string[] | null
+          title?: string
+          type?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       smart_notifications: {
         Row: {
           behavioral_data: Json | null
@@ -848,6 +944,38 @@ export type Database = {
           user_id?: string | null
         }
         Relationships: []
+      }
+      user_custom_saboteurs: {
+        Row: {
+          created_at: string
+          id: string
+          saboteur_id: string | null
+          score: number | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          saboteur_id?: string | null
+          score?: number | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          saboteur_id?: string | null
+          score?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_custom_saboteurs_saboteur_id_fkey"
+            columns: ["saboteur_id"]
+            isOneToOne: false
+            referencedRelation: "custom_saboteurs"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_goals: {
         Row: {
@@ -1053,6 +1181,62 @@ export type Database = {
             columns: ["lesson_id"]
             isOneToOne: false
             referencedRelation: "lessons"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_sessions: {
+        Row: {
+          assigned_at: string | null
+          completed_at: string | null
+          created_at: string
+          due_date: string | null
+          feedback: string | null
+          id: string
+          notes: string | null
+          progress: number | null
+          session_id: string | null
+          started_at: string | null
+          status: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          assigned_at?: string | null
+          completed_at?: string | null
+          created_at?: string
+          due_date?: string | null
+          feedback?: string | null
+          id?: string
+          notes?: string | null
+          progress?: number | null
+          session_id?: string | null
+          started_at?: string | null
+          status?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          assigned_at?: string | null
+          completed_at?: string | null
+          created_at?: string
+          due_date?: string | null
+          feedback?: string | null
+          id?: string
+          notes?: string | null
+          progress?: number | null
+          session_id?: string | null
+          started_at?: string | null
+          status?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_sessions_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "sessions"
             referencedColumns: ["id"]
           },
         ]
