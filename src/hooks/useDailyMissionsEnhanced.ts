@@ -113,13 +113,14 @@ export const useDailyMissionsEnhanced = ({ user }: UseDailyMissionsEnhancedProps
       switch (trackingType) {
         case 'water_intake_morning':
           const waterAmount = calculateWaterIntake(answer.toString());
+          // Salvar na health_diary temporariamente até criar tabela específica
           await supabase
-            .from('water_tracking')
+            .from('health_diary')
             .upsert({
               user_id: user.id,
               date: today,
-              amount_ml: waterAmount * 250, // Converter copos para ml
-              source: 'daily_mission',
+              water_intake: waterAmount * 0.25, // Converter copos para litros
+              notes: `Água: ${waterAmount} copos`,
               created_at: new Date().toISOString()
             });
           break;
@@ -127,24 +128,24 @@ export const useDailyMissionsEnhanced = ({ user }: UseDailyMissionsEnhancedProps
         case 'sleep_hours':
           const sleepHours = calculateSleepHours(answer.toString());
           await supabase
-            .from('sleep_tracking')
+            .from('health_diary')
             .upsert({
               user_id: user.id,
               date: today,
-              hours: sleepHours,
-              source: 'daily_mission',
+              sleep_hours: sleepHours,
+              notes: `Sono: ${sleepHours} horas`,
               created_at: new Date().toISOString()
             });
           break;
 
         case 'sleep_quality':
           await supabase
-            .from('sleep_tracking')
+            .from('health_diary')
             .upsert({
               user_id: user.id,
               date: today,
-              quality: answer as number,
-              source: 'daily_mission',
+              mood_rating: answer as number,
+              notes: `Qualidade do sono: ${answer}`,
               created_at: new Date().toISOString()
             });
           break;
@@ -153,12 +154,13 @@ export const useDailyMissionsEnhanced = ({ user }: UseDailyMissionsEnhancedProps
         case 'stress_level':
         case 'day_rating':
           await supabase
-            .from('mood_tracking')
+            .from('health_diary')
             .upsert({
               user_id: user.id,
               date: today,
-              [trackingType]: answer as number,
-              source: 'daily_mission',
+              energy_level: trackingType === 'energy_level' ? answer as number : undefined,
+              mood_rating: trackingType === 'day_rating' ? answer as number : undefined,
+              notes: `${trackingType}: ${answer}`,
               created_at: new Date().toISOString()
             });
           break;

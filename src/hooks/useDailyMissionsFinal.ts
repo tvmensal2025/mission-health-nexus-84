@@ -114,12 +114,12 @@ export const useDailyMissionsFinal = ({ user }: UseDailyMissionsFinalProps) => {
         case 'water_intake':
           const waterAmount = calculateWaterIntake(answer.toString());
           await supabase
-            .from('water_tracking')
+            .from('health_diary')
             .upsert({
               user_id: user.id,
               date: today,
-              amount_ml: waterAmount,
-              source: 'daily_mission',
+              water_intake: waterAmount,
+              notes: `Água: ${waterAmount}L`,
               created_at: new Date().toISOString()
             });
           break;
@@ -127,12 +127,12 @@ export const useDailyMissionsFinal = ({ user }: UseDailyMissionsFinalProps) => {
         case 'sleep_hours':
           const sleepHours = calculateSleepHours(answer.toString());
           await supabase
-            .from('sleep_tracking')
+            .from('health_diary')
             .upsert({
               user_id: user.id,
               date: today,
-              hours: sleepHours,
-              source: 'daily_mission',
+              sleep_hours: sleepHours,
+              notes: `Sono: ${sleepHours} horas`,
               created_at: new Date().toISOString()
             });
           break;
@@ -141,12 +141,13 @@ export const useDailyMissionsFinal = ({ user }: UseDailyMissionsFinalProps) => {
         case 'stress_level':
         case 'day_rating':
           await supabase
-            .from('mood_tracking')
+            .from('health_diary')
             .upsert({
               user_id: user.id,
               date: today,
-              [trackingType]: answer as number,
-              source: 'daily_mission',
+              energy_level: trackingType === 'energy_level' ? answer as number : undefined,
+              mood_rating: trackingType === 'day_rating' ? answer as number : undefined,
+              notes: `${trackingType}: ${answer}`,
               created_at: new Date().toISOString()
             });
           break;
@@ -159,7 +160,7 @@ export const useDailyMissionsFinal = ({ user }: UseDailyMissionsFinalProps) => {
               user_id: user.id,
               date: today,
               notes: answer.toString(),
-              mood_score: 5, // Valor padrão positivo
+              mood_rating: 5, // Valor padrão positivo
               created_at: new Date().toISOString()
             });
           break;
