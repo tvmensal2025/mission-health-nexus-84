@@ -34,6 +34,7 @@ import UserSessions from "./components/UserSessions";
 // import ToolsManagementPage from "./pages/ToolsManagementPage";
 import ChallengesPage from "./pages/ChallengesPage";
 import ChallengeDetailPage from "./pages/ChallengeDetailPage";
+import SaboteurTest from "./components/SaboteurTest";
 
 // Componente para lidar com autenticação na rota de sessões
 const SessionRoute = () => {
@@ -101,9 +102,11 @@ const App = () => (
           {/* Admin - standalone without layout */}
           <Route path="/admin" element={<AdminPage />} />
           
-          {/* Sistema de Desafios - standalone without layout */}
-          <Route path="/challenges" element={<ChallengesPage />} />
-          <Route path="/challenges/:id" element={<ChallengeDetailPage />} />
+          {/* Sistema de Desafios - com layout */}
+          <Route path="/challenges" element={<Layout />}>
+            <Route index element={<ChallengesPage />} />
+            <Route path=":id" element={<ChallengeDetailPage />} />
+          </Route>
           
           {/* App routes with layout */}
           <Route path="/app" element={<Layout />}>
@@ -116,9 +119,12 @@ const App = () => (
             <Route path="weekly" element={<div className="p-6"><h1 className="text-2xl font-bold">📊 Semanal</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />
             <Route path="weekly-assessment" element={<div className="p-6"><h1 className="text-2xl font-bold">Avaliação Semanal</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />
             <Route path="goals" element={<div className="p-6"><h1 className="text-2xl font-bold">Minhas Metas</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />
-            <Route path="challenges" element={<div className="p-6"><h1 className="text-2xl font-bold">Desafios</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />
+            
             <Route path="diary" element={<div className="p-6"><h1 className="text-2xl font-bold">Diário de Saúde</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />
-            <Route path="saboteur-test" element={<div className="p-6"><h1 className="text-2xl font-bold">Teste de Sabotadores</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />
+            <Route path="saboteur-test" element={<SaboteurTest />} />
+            <Route path="google-fit" element={<div className="p-6"><h1 className="text-2xl font-bold">Google Fit</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />
+            <Route path="scale-test" element={<div className="p-6"><h1 className="text-2xl font-bold">Teste Xiaomi Mi Body Scale 2</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />
+            <Route path="help" element={<div className="p-6"><h1 className="text-2xl font-bold">Ajuda</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />
             <Route path="progress" element={<ProgressPage />} />
             <Route path="analytics" element={<div className="p-6"><h1 className="text-2xl font-bold">Análise Avançada</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />
             <Route path="bioimpedancia" element={<BioimpedanciaPage />} />
