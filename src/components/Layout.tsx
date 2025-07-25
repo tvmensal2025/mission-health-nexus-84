@@ -4,6 +4,7 @@ import { useState, useEffect, ReactNode } from "react";
 import { Button } from "./ui/button";
 import { ChevronLeft, ChevronRight, Menu } from "lucide-react";
 import { PWAInstallPrompt } from "./PWAInstallPrompt";
+import { NotificationBell } from "./NotificationBell";
 
 interface LayoutProps {
   children?: ReactNode;
@@ -61,6 +62,11 @@ export default function Layout({ children }: LayoutProps) {
           <Menu className="w-5 h-5 text-white" />
         </Button>
         <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-blue-900">
+          {/* Header com notificações */}
+          <div className="absolute top-4 right-4 z-30">
+            <NotificationBell />
+          </div>
+          
           {/* Banner Principal */}
           <div className="relative h-96 overflow-hidden">
             {bannerType === 'video' ? (

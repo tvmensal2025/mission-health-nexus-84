@@ -229,7 +229,12 @@ const CompleteDashboardPage = () => {
                   activeSection === item.id ? 'bg-muted font-medium' : ''
                 } ${item.highlighted ? 'border border-red-500/30 bg-red-500/10' : ''}`}
                 onClick={() => {
-                  setActiveSection(item.id as DashboardSection);
+                  // Para desafios, navegar para a rota específica
+                  if (item.id === 'challenges') {
+                    navigate('/challenges');
+                  } else {
+                    setActiveSection(item.id as DashboardSection);
+                  }
                   setSidebarOpen(false);
                 }}
               >
