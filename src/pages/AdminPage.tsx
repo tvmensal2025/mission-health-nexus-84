@@ -30,6 +30,7 @@ import AdvancedReports from "@/components/admin/AdvancedReports";
 import { CourseManagement } from "@/components/admin/CourseManagement";
 import DebugDataVerification from "@/components/DebugDataVerification";
 import ToolsManagement from "@/components/admin/ToolsManagement";
+import ChallengeManagement from "@/components/admin/ChallengeManagement";
 
 const AdminPage = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -115,6 +116,7 @@ const AdminPage = () => {
     { id: 'weighings', icon: Scale, label: 'Monitoramento de Pesagens', color: 'text-purple-500', description: 'Acompanhar todas as pesagens' },
     { id: 'reports', icon: TrendingUp, label: 'Análises e Relatórios', color: 'text-green-500', description: 'Relatórios avançados e insights' },
     { id: 'courses', icon: BookOpen, label: 'Gestão de Cursos', color: 'text-orange-500', description: 'Gerenciar cursos e conteúdo' },
+    { id: 'challenges', icon: Award, label: 'Gestão de Desafios', color: 'text-pink-500', description: 'Criar e gerenciar desafios de saúde' },
     { id: 'payments', icon: CreditCard, label: 'Gestão de Pagamentos', color: 'text-emerald-500', description: 'Gestão Asaas e assinaturas' },
     { id: 'sessions', icon: FileText, label: 'Gestão de Sessões', color: 'text-cyan-500', description: 'Criar e enviar sessões personalizadas' },
     { id: 'devices', icon: Monitor, label: 'Gestão de Dispositivos', color: 'text-indigo-500', description: 'Dispositivos conectados' },
@@ -154,6 +156,8 @@ const AdminPage = () => {
         return <AdvancedReports />;
       case 'courses':
         return <CourseManagement />;
+      case 'challenges':
+        return <ChallengeManagement user={user} />;
       case 'payments':
         return <div className="text-center py-8 text-muted-foreground">Gerenciamento de Pagamentos em desenvolvimento...</div>;
       case 'sessions':
