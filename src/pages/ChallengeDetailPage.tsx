@@ -13,7 +13,7 @@ import {
   Clock, Info, MessageCircle, BarChart3, Camera, Upload,
   Dumbbell, Droplets, Brain, Apple, Moon, Scale, Star
 } from 'lucide-react';
-import Layout from '@/components/Layout';
+
 import { useUserProfile } from '@/hooks/useUserProfile';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -278,7 +278,7 @@ const ChallengeDetailPage: React.FC = () => {
   };
 
   return (
-    <Layout>
+    <div className="min-h-screen bg-background">
       <div className="container py-6">
         <Button 
           variant="ghost" 
@@ -697,7 +697,7 @@ const ChallengeDetailPage: React.FC = () => {
           </div>
         </div>
       </div>
-    </Layout>
+    </div>
   );
 };
 

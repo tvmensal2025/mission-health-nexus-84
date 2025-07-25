@@ -6,7 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import Layout from "./components/Layout";
+
 import Index from "./pages/Index";
 import LandingPage from "./pages/LandingPage";
 import AuthPage from "./pages/AuthPage";
@@ -102,35 +102,15 @@ const App = () => (
           {/* Admin - standalone without layout */}
           <Route path="/admin" element={<AdminPage />} />
           
-          {/* Sistema de Desafios - com layout */}
-          <Route path="/challenges" element={<Layout />}>
-            <Route index element={<ChallengesPage />} />
-            <Route path=":id" element={<ChallengeDetailPage />} />
-          </Route>
-          
-          {/* App routes with layout */}
-          <Route path="/app" element={<Layout />}>
-            <Route index element={<CoursePlatform viewMode="courses" />} />
-            <Route path="missions" element={<MissionSystem />} />
-            <Route path="courses" element={<CoursePlatform viewMode="courses" />} />
-            <Route path="sessions" element={<SessionRoute />} />
-            <Route path="ranking" element={<div className="p-6"><h1 className="text-2xl font-bold">Ranking</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />
-            <Route path="assessments" element={<div className="p-6"><h1 className="text-2xl font-bold">Avaliações</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />
-            <Route path="weekly" element={<div className="p-6"><h1 className="text-2xl font-bold">📊 Semanal</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />
-            <Route path="weekly-assessment" element={<div className="p-6"><h1 className="text-2xl font-bold">Avaliação Semanal</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />
-            <Route path="goals" element={<div className="p-6"><h1 className="text-2xl font-bold">Minhas Metas</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />
-            
-            <Route path="diary" element={<div className="p-6"><h1 className="text-2xl font-bold">Diário de Saúde</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />
-            <Route path="saboteur-test" element={<SaboteurTest />} />
-            <Route path="google-fit" element={<div className="p-6"><h1 className="text-2xl font-bold">Google Fit</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />
-            <Route path="scale-test" element={<div className="p-6"><h1 className="text-2xl font-bold">Teste Xiaomi Mi Body Scale 2</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />
-            <Route path="help" element={<div className="p-6"><h1 className="text-2xl font-bold">Ajuda</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />
-            <Route path="progress" element={<ProgressPage />} />
-            <Route path="analytics" element={<div className="p-6"><h1 className="text-2xl font-bold">Análise Avançada</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />
-            <Route path="bioimpedancia" element={<BioimpedanciaPage />} />
-            <Route path="subscriptions" element={<div className="p-6"><h1 className="text-2xl font-bold">Assinaturas</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />
-            <Route path="apps" element={<div className="p-6"><h1 className="text-2xl font-bold">Apps</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />
-          </Route>
+          {/* Challenges and app pages - standalone without complex layout */}
+          <Route path="/challenges" element={<ChallengesPage />} />
+          <Route path="/challenges/:id" element={<ChallengeDetailPage />} />
+          <Route path="/app/missions" element={<MissionSystem />} />
+          <Route path="/app/courses" element={<CoursePlatform viewMode="courses" />} />
+          <Route path="/app/sessions" element={<SessionRoute />} />
+          <Route path="/app/saboteur-test" element={<SaboteurTest />} />
+          <Route path="/app/progress" element={<ProgressPage />} />
+          <Route path="/app/bioimpedancia" element={<BioimpedanciaPage />} />
           
           {/* Standalone pages */}
           <Route path="/index" element={<Index />} />
