@@ -69,7 +69,7 @@ export const BodyEvolutionChart: React.FC<BodyEvolutionChartProps> = ({
             {/* Silhueta com composição */}
             <div className="relative flex justify-center items-center">
               <img
-                src="/images/silhueta svg.png"
+                src="/images/silhueta.svg"
                 alt="Silhueta Humana"
                 width="200"
                 height="300"

@@ -77,7 +77,7 @@ export const BodyChart: React.FC<BodyChartProps> = ({
           {/* Silhueta humana usando imagem real */}
           <div className="relative">
             <img
-              src="/images/silhueta svg.png"
+              src="/images/silhueta.svg"
               alt="Silhueta Humana"
               width="200"
               height="300"
@@ -191,7 +191,7 @@ export const BodyCompositionChart: React.FC<BodyCompositionChartProps> = ({
       <CardContent className="p-6">
         <div className="relative flex justify-center items-center">
           <img
-            src="/images/silhueta svg.png"
+            src="/images/silhueta.svg"
             alt="Silhueta Humana"
             width="200"
             height="300"
@@ -305,7 +305,7 @@ export const BodyTrendChart: React.FC<BodyTrendChartProps> = ({
       <CardContent className="p-6">
         <div className="relative flex justify-center items-center">
           <img
-            src="/images/silhueta svg.png"
+            src="/images/silhueta.svg"
             alt="Silhueta Humana"
             width="200"
             height="300"

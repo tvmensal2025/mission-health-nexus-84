@@ -46,9 +46,9 @@ const BioimpedanciaSilhueta: React.FC<SilhuetaProps> = ({
           {peso.toFixed(1)} kg
         </div>
         
-        {/* Silhueta PNG transparente */}
+        {/* Silhueta SVG transparente */}
         <img 
-          src="/images/silhueta svg.png" 
+          src="/images/silhueta.svg" 
           alt="Silhueta corporal"
           className={`w-full h-full object-contain ${cores[cor]}`}
           style={{

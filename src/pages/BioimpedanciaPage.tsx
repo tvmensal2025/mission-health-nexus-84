@@ -190,7 +190,7 @@ const BioimpedanciaPage: React.FC = () => {
                   </div>
                   
                   <img 
-                    src="/images/silhueta svg.png" 
+                    src="/images/silhueta.svg" 
                     alt="Silhueta corporal"
                     className="w-full h-full object-contain"
                     style={{ filter: 'brightness(0) invert(1) sepia(1) hue-rotate(0deg) saturate(2)' }}
@@ -260,7 +260,7 @@ const BioimpedanciaPage: React.FC = () => {
                   </div>
                   
                   <img 
-                    src="/images/silhueta svg.png" 
+                    src="/images/silhueta.svg" 
                     alt="Silhueta corporal"
                     className="w-full h-full object-contain"
                     style={{ filter: 'brightness(0) invert(1) sepia(1) hue-rotate(90deg) saturate(2)' }}
@@ -327,7 +327,7 @@ const BioimpedanciaPage: React.FC = () => {
                   </div>
                   
                   <img 
-                    src="/images/silhueta svg.png" 
+                    src="/images/silhueta.svg" 
                     alt="Silhueta corporal"
                     className="w-full h-full object-contain"
                     style={{ filter: 'brightness(0) invert(1) sepia(1) hue-rotate(45deg) saturate(2)' }}
@@ -403,7 +403,7 @@ const BioimpedanciaPage: React.FC = () => {
                   </div>
                   
                   <img 
-                    src="/images/silhueta svg.png" 
+                    src="/images/silhueta.svg" 
                     alt="Silhueta corporal"
                     className="w-full h-full object-contain"
                     style={{ filter: 'brightness(0) invert(1) sepia(1) hue-rotate(45deg) saturate(2)' }}
