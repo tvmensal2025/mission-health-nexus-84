@@ -6,6 +6,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
 import PersonagemCorporal3D from '@/components/PersonagemCorporal3D';
+import Modelo3DControls from '@/components/Modelo3DControls';
 
 interface BodyEvolutionChartProps {
   weightData: Array<{
@@ -28,6 +29,14 @@ export const BodyEvolutionChart: React.FC<BodyEvolutionChartProps> = ({
   bodyCompositionData,
   className = ''
 }) => {
+  // Estados para controles do modelo 3D
+  const [modelControls, setModelControls] = React.useState({
+    rotation: { x: 0, y: 0, z: 0 },
+    zoom: 1,
+    position: { x: 0, y: 0 },
+    autoRotate: true
+  });
+
   // Ordenar dados do mais recente para o mais antigo
   const sortedData = [...weightData].reverse();
   
@@ -50,6 +59,23 @@ export const BodyEvolutionChart: React.FC<BodyEvolutionChartProps> = ({
     return 'Estável';
   };
 
+  // Handlers para controles do modelo 3D
+  const handleRotationChange = (rotation: { x: number; y: number; z: number }) => {
+    setModelControls(prev => ({ ...prev, rotation }));
+  };
+
+  const handleZoomChange = (zoom: number) => {
+    setModelControls(prev => ({ ...prev, zoom }));
+  };
+
+  const handlePositionChange = (position: { x: number; y: number }) => {
+    setModelControls(prev => ({ ...prev, position }));
+  };
+
+  const handleAutoRotateToggle = (autoRotate: boolean) => {
+    setModelControls(prev => ({ ...prev, autoRotate }));
+  };
+
   return (
     <Card className={`bg-black text-white border-gray-800 ${className}`}>
       <CardHeader>
@@ -68,42 +94,54 @@ export const BodyEvolutionChart: React.FC<BodyEvolutionChartProps> = ({
             </div>
             
             {/* Modelo 3D com composição */}
-            <div className="relative flex justify-center items-center">
-              {/* Modelo 3D Feminino */}
-              <div className="relative">
-                <PersonagemCorporal3D 
-                  genero="feminino"
-                  className="w-48 h-72"
-                />
-                
-                {/* Legenda da composição sobreposta */}
-                <div className="absolute right-2 top-4 space-y-2 bg-black/70 p-3 rounded-lg backdrop-blur-sm">
-                  <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                    <div className="text-sm">
-                      <div className="font-bold text-yellow-400">{bodyCompositionData.gordura}%</div>
-                      <div className="text-xs text-gray-400">Gordura</div>
+            <div className="relative flex flex-col gap-4">
+              {/* Controles do modelo 3D */}
+              <Modelo3DControls
+                onRotationChange={handleRotationChange}
+                onZoomChange={handleZoomChange}
+                onPositionChange={handlePositionChange}
+                onAutoRotateToggle={handleAutoRotateToggle}
+                className="absolute top-0 right-0 z-20 w-48"
+              />
+              
+              <div className="relative flex justify-center items-center">
+                {/* Modelo 3D Feminino com controles */}
+                <div className="relative">
+                  <PersonagemCorporal3D 
+                    genero="feminino"
+                    className="w-48 h-72"
+                    controls={modelControls}
+                  />
+                  
+                  {/* Legenda da composição sobreposta */}
+                  <div className="absolute left-2 top-4 space-y-2 bg-black/70 p-3 rounded-lg backdrop-blur-sm">
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                      <div className="text-sm">
+                        <div className="font-bold text-yellow-400">{bodyCompositionData.gordura}%</div>
+                        <div className="text-xs text-gray-400">Gordura</div>
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                    <div className="text-sm">
-                      <div className="font-bold text-green-400">{bodyCompositionData.musculo}%</div>
-                      <div className="text-xs text-gray-400">Músculo</div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                      <div className="text-sm">
+                        <div className="font-bold text-green-400">{bodyCompositionData.musculo}%</div>
+                        <div className="text-xs text-gray-400">Músculo</div>
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-                    <div className="text-sm">
-                      <div className="font-bold text-blue-400">{bodyCompositionData.agua}%</div>
-                      <div className="text-xs text-gray-400">Água</div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+                      <div className="text-sm">
+                        <div className="font-bold text-blue-400">{bodyCompositionData.agua}%</div>
+                        <div className="text-xs text-gray-400">Água</div>
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
-                    <div className="text-sm">
-                      <div className="font-bold text-purple-400">{bodyCompositionData.osso}%</div>
-                      <div className="text-xs text-gray-400">Osso</div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
+                      <div className="text-sm">
+                        <div className="font-bold text-purple-400">{bodyCompositionData.osso}%</div>
+                        <div className="text-xs text-gray-400">Osso</div>
+                      </div>
                     </div>
                   </div>
                 </div>

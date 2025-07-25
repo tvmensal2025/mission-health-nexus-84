@@ -6,6 +6,12 @@ interface Personagem3DProps {
   peso?: number;
   className?: string;
   style?: React.CSSProperties;
+  controls?: {
+    rotation?: { x: number; y: number; z: number };
+    zoom?: number;
+    position?: { x: number; y: number };
+    autoRotate?: boolean;
+  };
 }
 
 const PersonagemCorporal3D: React.FC<Personagem3DProps> = ({ 
@@ -13,7 +19,8 @@ const PersonagemCorporal3D: React.FC<Personagem3DProps> = ({
   altura, 
   peso, 
   className = "",
-  style = {} 
+  style = {},
+  controls = {}
 }) => {
   // IDs dos modelos do Sketchfab
   const modelIds = {
@@ -23,7 +30,13 @@ const PersonagemCorporal3D: React.FC<Personagem3DProps> = ({
 
   const modelId = modelIds[genero];
   
-  // URL do Sketchfab com parâmetros para remover UI e logos
+  // Aplicar controles personalizados
+  const rotation = controls.rotation || { x: 0, y: 0, z: 0 };
+  const zoom = controls.zoom || 1;
+  const position = controls.position || { x: 0, y: 0 };
+  const autoRotate = controls.autoRotate !== false; // default true
+  
+  // URL do Sketchfab com parâmetros para remover UI e logos + controles customizados
   const sketchfabUrl = `https://sketchfab.com/models/${modelId}/embed?` + 
     'ui_controls=0&' +           // Remove controles da UI
     'ui_infos=0&' +              // Remove informações
@@ -37,11 +50,17 @@ const PersonagemCorporal3D: React.FC<Personagem3DProps> = ({
     'ui_loading=0&' +            // Remove loading
     'ui_inspector=0&' +          // Remove inspetor
     'autostart=1&' +             // Inicia automaticamente
-    'autospin=0.2&' +            // Rotação automática lenta
-    'camera=0';                  // Câmera fixa
+    `autospin=${autoRotate ? '0.2' : '0'}&` +  // Rotação automática baseada no controle
+    'camera=0&' +                // Câmera fixa
+    `camera_pitch=${rotation.x}&` +  // Rotação X
+    `camera_yaw=${rotation.y}&` +    // Rotação Y
+    `zoom=${zoom}`;                  // Zoom
 
   return (
-    <div className={`relative ${className}`} style={style}>
+    <div className={`relative ${className}`} style={{
+      ...style,
+      transform: `translate(${position.x}px, ${position.y}px) scale(${zoom})`
+    }}>
       {/* Medidas corporais */}
       {altura && (
         <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-xs font-medium text-gray-700 z-10">
